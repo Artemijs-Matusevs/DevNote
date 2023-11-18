@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevNote</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <!-- ION ICONS -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+
+<body class="indexBody">
+    <div class="indexTop">
+
+        <svg class="indexBackground" id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='70' height='70' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(220, 4%, 28%, 1)'/><path d='M-4.8 4.44L4 16.59 16.14 7.8M32 30.54l-13.23 7.07 7.06 13.23M-9 38.04l-3.81 14.5 14.5 3.81M65.22 4.44L74 16.59 86.15 7.8M61 38.04l-3.81 14.5 14.5 3.81'  stroke-linecap='square' stroke-width='1' stroke='hsla(50, 91%, 52%, 1)' fill='none'/><path d='M59.71 62.88v3h3M4.84 25.54L2.87 27.8l2.26 1.97m7.65 16.4l-2.21-2.03-2.03 2.21m29.26 7.13l.56 2.95 2.95-.55'  stroke-linecap='square' stroke-width='1' stroke='hsla(339.6,82.2%,51.6%,1)' fill='none'/><path d='M58.98 27.57l-2.35-10.74-10.75 2.36M31.98-4.87l2.74 10.65 10.65-2.73M31.98 65.13l2.74 10.66 10.65-2.74'  stroke-linecap='square' stroke-width='1' stroke='hsla(198.7,97.6%,48.4%,1)' fill='none'/><path d='M8.42 62.57l6.4 2.82 2.82-6.41m33.13-15.24l-4.86-5.03-5.03 4.86m-14-19.64l4.84-5.06-5.06-4.84'  stroke-linecap='square' stroke-width='1' stroke='hsla(160, 13%, 33%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(#a)'/></svg>
+
+        <div class="border">
+            <div class="indexTextContainer">
+                <h1> DEV-NOTE </h1>
+                <p> A note taking application designed for developers. </p>
+            </div>
+        </div>
+        
+
+        <ion-icon class="downArrow" name="chevron-down-outline"></ion-icon>
+    </div>
+
+    <div class="indexBottom">
+        <div>
+            <form action="/sign-in" method="post">
+                <h1> Sign-In </h1>
+                <input required name="username" type="text" placeholder="Username*">
+                <input required name="password" type="password" placeholder="Password*">
+                <input class="submitButton" type="submit">
+            </form>
+        </div>
+
+        <div class="vl"></div>
+
+        <div>
+            <form action="/register" method="post">
+                <h1> Register </h1>
+                <input required name="fullName" type="text" placeholder="Full Name*">
+                <input required name="email" type="email" placeholder="Email*">
+                <input required name="username" type="text" placeholder="Username*">
+                <input required name="password" type="password" placeholder="Password*">
+                <input class="submitButton" type="submit">
+            </form>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    $(document).ready(function() {
+        $(".border").addClass("borderActive");
+
+        setTimeout(function() {
+            $(".indexTextContainer").animate({opacity: 1});
+        }, 750);
+
+        setTimeout(function() {
+            $(".indexTextContainer p").animate({opacity: 1});
+        }, 1400);
+    });
+
+    //Add on click, event listener to down arrow to scroll down to bottom of document.
+    $(".downArrow").on("click", function() {
+        $("html, body").animate({ scrollTop: $(document).height()}, 50);
+    })
+</script>
+
+
+</html>

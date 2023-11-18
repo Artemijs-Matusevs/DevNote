@@ -1,0 +1,259 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ----- TAG SELECTORS ----- */
+
+html{
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+
+/* ----- CLASS SELECTORS ----- */
+.indexBody{
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 200vh;
+}
+
+.indexBottom, .indexTop{
+    flex: 1;
+    height: 100vh;
+}
+
+/* TOP SECTION OF INDEX PAGE */
+.indexTop{
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    width: 100vw;
+    z-index: 0;
+}
+
+.indexTextContainer{
+    background-color: #45474b;
+    padding: 50px;
+    color: #f5f7f8;
+    font-size: 1.5rem;
+    font-style: italic;
+    opacity: 0;
+}
+.indexTextContainer h1{
+    font-size: 6rem;
+    color: #f4ce14;
+}
+.indexTextContainer p{
+    opacity: 0;
+}
+
+.indexBackground{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
+#patternId path{
+    stroke-dasharray: 831px;
+    stroke-dashoffset: 831px;
+    animation: backgroundAnim 15s infinite;
+}
+
+/* DOWN ARROW OF TOP INDEX PAGE */
+.downArrow{
+    color: #f5f7f8;
+    font-size: 125px;
+    position: absolute;
+    bottom: 0;
+    transition: all 0.05s;
+}
+
+.downArrow:hover{
+    transform: scale(1.2);
+}
+
+
+/* BOTTOM SECTION OF INDEX PAGE */
+.indexBottom{
+    background-color: rgba(69,71,75,1);
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-top: solid;
+    border-color: #f5f7f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.indexBottom div{
+    width: 400px;
+    text-align: center;
+    color: #f4ce14;
+}
+
+/* VERTICAL LINE */
+.vl {
+    height: 40vw;
+    background-image: linear-gradient(to right, rgba(69,71,75,1), #f4ce14, rgba(69,71,75,1));
+    border-radius: 100%;
+    width: 2px !important;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border: 0;
+}
+
+/* FORMS STYLING */
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+input{
+    width: 300px;
+    height: 25px;
+    margin-bottom: 20px;
+    border: solid;
+    border-style:groove;
+    border-color: #f4ce14;
+    padding: 10px;
+    background-color: transparent;
+    color: #EFEFEF;
+}
+
+.submitButton{
+    width: 200px;
+    height: 40px;
+}
+
+.submitButton:hover{
+    background-color: rgba(245, 247, 248, 0.2);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* BORDER ANIMATION FOR LOGO */
+.border {
+    --c: #ecc046;
+    --b: 10px;
+    --g: 5px;
+
+    padding: calc(var(--g) + var(--b));
+    --_g: #0000 25%,var(--c) 0;
+    background: 
+      conic-gradient(from 180deg at top    var(--b) right var(--b),var(--_g))
+       var(--_i,200%) 0  /200% var(--_i,var(--b))  no-repeat,
+      conic-gradient(            at bottom var(--b) left  var(--b),var(--_g))
+       0   var(--_i,200%)/var(--_i,var(--b)) 200%  no-repeat;
+    transition: .3s, background-position .3s .3s;
+}
+.borderActive {
+    --_i: 100%;
+    transition: .3s, background-size .3s .3s;
+}
+
+
+
+
+/* ----- ANIMATOINS ----- */
+@keyframes backgroundAnim{
+    0%{
+        stroke-dashoffset: 831px;
+    }
+    20%{
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dashoffset: 0;
+    }
+    80%{
+        stroke-dashoffset: 0;
+    }
+    0%{
+        stroke-dashoffset: -831px;
+    } 
+}
+
+
+
+
+
+
+/* ----- MEDIA QUERIES ----- */
+@media (max-width: 800px) {
+    /* Index bottom half / forms */
+    .indexBody{
+        height: 250vh;
+    }
+    .indexBottom{
+        flex-direction: column;
+        height: 150vh;
+    }
+    .vl{
+        height: 2px !important;
+        width: 80vw !important;
+    }
+
+    /* Index top half/logo */
+    .border{
+        width: 80vw;
+    }
+    .indexTextContainer{
+        font-size: 4vw;
+    }
+    .indexTextContainer h1{
+        font-size: 10vw;
+        color: #f4ce14;
+    }
+}
+
+/* Galaxy Fold */
+@media (max-width: 400px) {
+
+    .vl{
+        width: 200px !important;
+    }
+    input{
+        width: 150px;
+    }
+    .submitButton{
+        width: 100px;
+    }
+
+    .indexBottom div{
+        width: 100%;
+    }
+
+    .indexBottom{
+        flex-direction: column;
+    }
+
+    .indexTextContainer{
+        font-size: 15px;
+        padding: 35px 1px;
+    }
+
+    .indexTextContainer h1{
+        font-size: 40px;
+    }
+}
