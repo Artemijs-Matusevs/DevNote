@@ -242,6 +242,9 @@ input{
     cursor: pointer;
     color: #f4ce14;
     margin: 50px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .dashboardNav ul li:hover{
@@ -385,10 +388,10 @@ input{
         display: none;
     }
     .dashboardNav{
-        display: none
+        display: none;/* HIDE DESKTOP NAV */
     }
     .mobileNav{
-        display: flex;
+        display: flex;/* SHOW MOBILE NAV BAR */
     }
     
 
