@@ -78,6 +78,7 @@ html{
 
 .downArrow:hover{
     transform: scale(1.2);
+    cursor: pointer;
 }
 
 
@@ -104,7 +105,7 @@ html{
 
 /* VERTICAL LINE ON INDEX PAGE FORM */
 .vl {
-    height: 40vw;
+    height: 500px;
     background-image: linear-gradient(to right, rgba(69,71,75,1), #f4ce14, rgba(69,71,75,1));
     border-radius: 100%;
     width: 2px !important;
@@ -141,6 +142,7 @@ input{
 
 .submitButton:hover{
     background-color: rgba(245, 247, 248, 0.2);
+    cursor: pointer;
 }
 
 
@@ -151,7 +153,7 @@ input{
 /*-----  DASHBOARD  PAGE -------- */
 .dashboardBody{
     background-color: #45474b;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 }
 
@@ -161,7 +163,7 @@ input{
     height: 15vh;
     box-shadow: 2px 2px 10px #EFEFEF;
     display: flex;
-    gap: 250px;
+    gap: 15vw;
     font-size: 35px;
     align-items: center;
     color: #EFEFEF;
@@ -177,7 +179,6 @@ input{
 
 .headerText{
     background-color: #45474b;
-    text-shadow: 0px 0px 5px #EFEFEF;
     box-shadow: 2px 2px 100px #45474b;
     opacity: 0;
 }
@@ -201,6 +202,7 @@ input{
     position: absolute;
     z-index: -1;
     height: 15vh;
+    width: 100%;
     animation-name: dashboardAnim;
     animation-fill-mode: forwards;
     animation-duration: 4s;
@@ -212,21 +214,21 @@ input{
 
 /* Main body of dashboard*/
 .dashboardMainBody{
-    width: 100vw;
+    width: 100%;
     height: 85vh;
     display: flex;
-    gap: 50px;
-    padding: 50px;
+    gap: 100px;
     box-sizing: border-box;
     opacity: 0;
 }
 
 /* dashboard nav */
 .dashboardNav{
-    width: 15vw;
+    width: 20vw;
     padding: 50px;
     box-sizing: border-box;
     text-decoration: none;
+    box-shadow: 5px 0px 5px -5px #EFEFEF;
 }
 
 .dashboardNav ul{
@@ -239,7 +241,7 @@ input{
     font-size: 30px;
     cursor: pointer;
     color: #f4ce14;
-    margin: 20px 0;
+    margin: 50px 0;
 }
 
 .dashboardNav ul li:hover{
@@ -247,9 +249,33 @@ input{
 }
 
 .signOut{
-    position: absolute;
-    bottom: 50px;
-    left: 50px;
+    position: relative;
+    bottom: -200px;
+    left: -50px;
+    width: 200px;
+}
+
+/* MOBILE NAV BAR FOR DASHBOARD */
+.mobileNav{
+    position: fixed;
+    width: 100vw;
+    height: 10vh;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    display: none;
+}
+
+.mobileNav ul{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    font-size: 25px;
+    color: #f4ce14;
 }
 
 
@@ -310,7 +336,63 @@ input{
 
 
 /* ----- MEDIA QUERIES ----- */
+@media (max-width: 1200px) {
+    /* CHANGE SIZES OF TEXT ON BANNER OF THE DASHBOARD */
+    .headerText{
+        font-size: 30px;
+    }
+    .logo>h1{
+        font-size: 2vw;
+    }
+    .dashboardNav{
+        padding: 25px;
+        width: 30vw;
+    }
+    .dashboardNav ul li{
+        font-size: 24px;
+    }
+}
+
 @media (max-width: 800px) {
+
+    /* CHANGE SIZES OF BANNER ON DASHBOARD PAGE */
+    .headerText{
+        display: none;
+    }
+    .logo{
+        width: 40vw;
+    }
+    .logo>h1{
+        font-size: 4vw;
+    }
+    .dashboardHeader{
+        justify-content: center;
+        width: 100vw;
+    }
+    .dashboardBorder{
+        margin-left: 0;
+    }
+    .dashboardBody{
+        width: 100vw;
+    }
+    .dashboardMainBody{
+        width: 100vw;
+    }
+    .headerBackground{
+        width: 100vw;
+    }
+    .dashboardVl{
+        display: none;
+    }
+    .dashboardNav{
+        display: none
+    }
+    .mobileNav{
+        display: flex;
+    }
+    
+
+
     /* Index bottom half / forms */
     .indexBody{
         height: 250vh;
@@ -319,13 +401,13 @@ input{
         flex-direction: column;
         height: 150vh;
     }
-    .vl{
+    .vlIndex{
         height: 2px !important;
         width: 80vw !important;
     }
 
     /* Index top half/logo */
-    .border{
+    .borderIndex{
         width: 80vw;
     }
     .indexTextContainer{
@@ -340,7 +422,7 @@ input{
 /* Galaxy Fold */
 @media (max-width: 400px) {
 
-    .vl{
+    .vlIndex{
         width: 200px !important;
     }
     input{
