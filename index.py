@@ -11,12 +11,16 @@ def index():
     return render_template('index.html')
 
 #Handle sign-in and redirect accordingly
-#@app.route('/sign-in', methods=['POST'])
+#@app.route('/sign-in', methods=['POST']):
     #def login():
 
 
 
+#FUNCTIONS
 
+#Get retrieve username and password from database
+def getUserDetails(username):
+    return "test"
 
 #Run server
 if __name__ == "__name__":
