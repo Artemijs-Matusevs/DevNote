@@ -146,7 +146,26 @@ input{
 }
 
 
+/* Alert message */
+.alertMessage{
+    width: 100%;
+    height: 10vh;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.close{
+    font-size: 45px;
+    color: #EFEFEF;
+}
 
+.close:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
 
 
 
