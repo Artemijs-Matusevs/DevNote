@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bcrypt import Bcrypt
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
 bcrypt = Bcrypt(app)
 
 #SET UP CONNECTION TO SQLITE DB
@@ -19,7 +20,12 @@ red = "#A45D5D"
 #Landing page, default endpoint
 @app.route('/')
 def index():
-    return render_template('index.html')
+    #Check if session already exists
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
+    
+    else:
+        return render_template('index.html')
 
 
 #Handle sign-in and redirect accordingly
@@ -38,12 +44,16 @@ def login():
         if storedDetails: #Check if the details exist
             storedUsername = storedDetails[0]#Get stored username and password
             storedPassword = storedDetails[1]
-            #print(storedUsername, storedPassword)
+            userId = storedDetails[2]
+            #print(userId)
 
             #Check stored hashed password with provided password
-            if bcrypt.check_password_hash(storedPassword, password):
-                print("Correct")
-            else:
+            if bcrypt.check_password_hash(storedPassword, password): #User authenticated
+                session['user_id'] = userId #Set the session ID to the user ID
+                return redirect(url_for('dashboard'))
+                #print("Correct")
+
+            else: # Authentiction failed
                 return render_template('index.html', alertMessage="Sign-in Error: Invalid details", alertColor=red)
                 #print("Wrong password")
 
@@ -105,18 +115,30 @@ def register():
 #The user dashboard
 @app.route('/dashboard')
 def dashboard():
-    return None
+    if 'user_id' in session:
+        username = getUsernameById(session['user_id'])
+
+        return render_template('dashboard.html', username=username[0])
+    else:
+        return redirect(url_for('index'))
 
 
+#Sign-out 
+@app.route('/sign-out')
+def signOut():
+    #Remove userId from session
+    session.pop('user_id', None)
+    flash('You have been signed out')
+    return redirect(url_for('index')) #Redirect back to root
 
 
 
 #FUNCTIONS
 
-#Get retrieve username and password from database of a specific user
+#Get retrieve username and password from database of a specific user BY USERNAME
 def getUserDetails(username):
     try: #Execute SQL query to get back the password and username, of a specific user
-        cursor.execute(''' SELECT username, password
+        cursor.execute(''' SELECT username, password, id
                        FROM users
                        WHERE username = ? ''', (username,))
         
@@ -128,6 +150,19 @@ def getUserDetails(username):
         return None
 
 
+#Retrieve details of specific user by ID
+def getUsernameById(userId):
+    try:
+        cursor.execute(''' SELECT username
+                       FROM users
+                       WHERE id = ? ''', (userId,))
+        
+        user_record = cursor.fetchone()
+        return user_record
+    
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
 
 #TESTING
 #print(getUserDetails("timm"))
