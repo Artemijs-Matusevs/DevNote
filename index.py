@@ -125,7 +125,7 @@ def dashboard():
     if 'user_id' in session:
         username = getUsernameById(session['user_id'])
 
-        return render_template('dashboard.html', username=username[0])
+        return render_template('dashboard.html', username = username[0], greeting = checkTime())
     else:
         return redirect(url_for('index'))
 
@@ -199,9 +199,20 @@ def checkPasswordStrength(password):
         return True
     
 #Check time
-# checkTime():
-    #currentTime = datetime.now() #Get the current time
+def checkTime():
+    currentTime = datetime.now() #Get the current time
+    hour = currentTime.hour #Get the current hour
 
+    if 5 <= hour < 12:
+        greeting = "Good Morning"
+    elif 12 <= hour < 17:
+        greeting = "Good Afternoon"
+    elif 17 <= hour < 21:
+        greeting = "Good Evening"
+    else:
+        greeting = "Good Night"
+    
+    return greeting
 
 
 #TESTING
