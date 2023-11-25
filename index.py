@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bcrypt import Bcrypt
 import sqlite3
+import re
 
 app = Flask(__name__)
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
@@ -80,6 +81,10 @@ def register():
         email = request.form['email']
         fullName = request.form['fullName']
 
+        #Check password strength
+        if checkPasswordStrength(password) == False:
+            return render_template('index.html', alertMessage="*Password must be at least 10 characters long, containing lower, upper, special characters and numbers", alertColor=red) #Render the index page again with alert message
+
         #Hash the entered password
         hashedPassword = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -112,6 +117,7 @@ def register():
         return redirect(url_for('index'))
 
 
+
 #The user dashboard
 @app.route('/dashboard')
 def dashboard():
@@ -123,6 +129,7 @@ def dashboard():
         return redirect(url_for('index'))
 
 
+
 #Sign-out 
 @app.route('/sign-out')
 def signOut():
@@ -130,6 +137,9 @@ def signOut():
     session.pop('user_id', None)
     flash('You have been signed out')
     return redirect(url_for('index')) #Redirect back to root
+
+
+
 
 
 
@@ -163,6 +173,30 @@ def getUsernameById(userId):
     except sqlite3.Error as error:
         print("Error occured:", error)
         return None
+    
+
+
+#Check password complies with strength rules
+def checkPasswordStrength(password):
+    #Check length
+    if len(password) < 10:
+        return False
+    
+    #Check for upper case
+    if not re.search(r"[A-Z]", password):
+        return False
+    
+    #Check lower case
+    if not re.search(r"[a-z]", password):
+        return False
+    
+    #Check special characters
+    if not re.search(r"[!@#$%^&*()\-_=+{}[\]|\:;\"'<>,.?/]", password):
+        return False
+    
+    else:
+        return True
+    
 
 #TESTING
 #print(getUserDetails("timm"))
