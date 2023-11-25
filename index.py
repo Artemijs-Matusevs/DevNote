@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
@@ -197,6 +198,11 @@ def checkPasswordStrength(password):
     else:
         return True
     
+#Check time
+# checkTime():
+    #currentTime = datetime.now() #Get the current time
+
+
 
 #TESTING
 #print(getUserDetails("timm"))
