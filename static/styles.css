@@ -79,11 +79,6 @@ a{
     z-index: 1;
 }
 
-.indexBackground path{
-    animation: backgroundAnim 15s infinite;
-    stroke-dasharray: 831px;
-    stroke-dashoffset: 831px;
-}
 
 /* DOWN ARROW OF TOP INDEX PAGE */
 .downArrow{
@@ -182,6 +177,10 @@ input:focus{
     font-size: 25px;
 }
 
+.openedEye1, .openedEye2{
+    display: none;
+}
+
 .submitButton{
     width: 200px;
     height: 40px;
@@ -218,7 +217,8 @@ input:focus{
 
 /*-----  DASHBOARD  PAGE -------- */
 .dashboardBody{
-    background-color: #45474b;
+    background: radial-gradient(rgba(128, 128, 128, 0.5), rgba(0, 0, 0, 0.5));
+    background-color: grey;
     width: 100%;
     height: 100vh;
 }
@@ -240,12 +240,6 @@ input:focus{
     font-style: italic;
     color: #e8d4b6;
     font-size: 25px;
-}
-
-.headerText{
-    background-color: #45474b;
-    box-shadow: 2px 2px 100px #45474b;
-    opacity: 0;
 }
 
 .logo{
@@ -276,6 +270,7 @@ input:focus{
 .dashboardNav{
     box-sizing: border-box;
     text-decoration: none;
+    opacity: 0;
 }
 
 .dashboardNav ul{
@@ -301,7 +296,11 @@ input:focus{
 }
 
 .dashboardNav ul li:hover{
-    color: white;
+    background-image: linear-gradient(#e8d4b6 0 0);
+    background-position: bottom center; 
+    background-size: 80% 2px; 
+    background-repeat: no-repeat;
+    padding-bottom: 4px;
 }
 
 .signOut{
@@ -313,7 +312,11 @@ input:focus{
 
 /* ACTIVE NAV OPTION */
 .active{
-    color: white;
+    background-image: linear-gradient(#e8d4b6 0 0);
+    background-position: bottom center; 
+    background-size: 80% 2px; 
+    background-repeat: no-repeat;
+    padding-bottom: 4px;
 }
 
 /* MOBILE NAV BAR FOR DASHBOARD */
@@ -347,7 +350,6 @@ input:focus{
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 100px;
     overflow-y: auto;
-    height: 100%;
     padding: 50px;
 }
 
@@ -369,7 +371,7 @@ input:focus{
 .panel:hover{
     --a:20%;
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .plus{
@@ -377,6 +379,44 @@ input:focus{
     height: 100%;
 }
 
+
+/* NEW BOOK CONFIRMATION MESSAGE */
+.newBook{
+    position: fixed;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.newBook>div{
+    width: 500px;
+    height: 250px;
+    background-color:rgba(69,71,75,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.newBook p{
+    color: white;
+}
+
+.newBookButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    gap: 50px;
+}
+
+.newBookButtons input{
+    width: 100px;
+}
 
 
 

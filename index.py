@@ -123,9 +123,8 @@ def register():
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' in session:
-        username = getUsernameById(session['user_id'])
 
-        return render_template('dashboard.html', username = username[0], greeting = checkTime())
+        return render_template('dashboard.html')
     else:
         return redirect(url_for('index'))
 
@@ -198,23 +197,6 @@ def checkPasswordStrength(password):
     else:
         return True
     
-
-    
-#Check time
-def checkTime():
-    currentTime = datetime.now() #Get the current time
-    hour = currentTime.hour #Get the current hour
-
-    if 5 <= hour < 12:
-        greeting = "Good Morning"
-    elif 12 <= hour < 17:
-        greeting = "Good Afternoon"
-    elif 17 <= hour < 21:
-        greeting = "Good Evening"
-    else:
-        greeting = "Good Night"
-    
-    return greeting
 
 
 #TESTING

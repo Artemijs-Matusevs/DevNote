@@ -14,6 +14,20 @@
 
 
 <body class="dashboardBody">
+    <!-- NEW NOTEBOOK CONFIRMATION -->
+    <div class="newBook">
+        <div>
+            <form action="/new-notebook" method="post">
+                <p> Create new notebook </p>
+                <input class="inputFields" required name="notebookName" type="text" placeholder="Name of notebook*">
+                <div class="newBookButtons">
+                    <input class="submitButton inputFields" type="submit" value="Create">
+                    <input class="submitButton inputFields" type="submit" value="Cancel" onClick="closeConfirmation();">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="dashboardHeader"> 
         <div class="border dashboardBorder">
             <div class="logo">
@@ -23,10 +37,10 @@
 
         <div class="dashboardNav">
             <ul>
-                <li><a class="active"> <ion-icon name="book-outline"></ion-icon> Notebooks </a></li>
-                <li><a> <ion-icon name="settings-outline"></ion-icon> Settings </a></li>
-                <li><a> <ion-icon name="alert-circle-outline"></ion-icon> Support </a> </li>
-                <li><a href="/sign-out"> <ion-icon name="log-out-outline"></ion-icon> Sign-Out </a></li>
+                <li class="active"><a> Notebooks </a></li>
+                <li><a> Settings </a></li>
+                <li><a> Support </a> </li>
+                <li><a href="/sign-out"> Sign-Out </a></li>
             </ul>
         </div>
     </div>
@@ -34,11 +48,12 @@
     <div class="dashboardMainBody">
 
         <div class="dashboardContent">
-            <div class="panel">
-                <a href="/new-book" class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
+            <div class="panel newBookButton">
+                <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
             </div>
         </div>
     </div>
+
 
     <div class="mobileNav">
         <ul>
@@ -49,24 +64,40 @@
         </ul>
     </div>
     
+
+
 </body>
 
 <script>
+     $(".newBook").hide();
+     
     $(document).ready(function() {
-        $(".border").addClass("borderActive");
+        setTimeout(function() {
+            $(".border").addClass("borderActive");
+        }, 500);
     });
 
     setTimeout(function() {
             $(".logo").animate({opacity: 1});
-    }, 250);
+    }, 750);
 
     setTimeout(function() {
-            $(".headerText").animate({opacity: 1});
-    }, 500);
+        $(".dashboardNav").animate({opacity: 1});
+    }, 1000);
 
     setTimeout(function() {
             $(".dashboardMainBody").animate({opacity: 1});
-    }, 750);
+    }, 1250);
+
+
+
+    function closeConfirmation(){
+        $(".newBook").hide();
+    }
+    //Add event listener to new book button to show the new book confirmation window
+    $(".newBookButton").on("click", function() {
+        $(".newBook").show();
+    })
 </script>
 
 </html>

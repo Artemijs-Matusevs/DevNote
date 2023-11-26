@@ -44,6 +44,7 @@
                 <div class="passwordContainer inputFields">
                     <input id="password1" required name="password" type="password" placeholder="Password*">
                     <ion-icon class="eye eye1" name="eye-off-outline"></ion-icon>
+                    <ion-icon class="eye openedEye1" name="eye-outline"></ion-icon>
                 </div>
                 <input class="submitButton inputFields" type="submit">
             </form>
@@ -60,6 +61,7 @@
                 <div class="passwordContainer inputFields">
                     <input id="password2" required name="password" type="password" placeholder="Password*">
                     <ion-icon class="eye eye2" name="eye-off-outline"></ion-icon>
+                    <ion-icon class="eye openedEye2" name="eye-outline"></ion-icon>
                 </div>
                 <input class="submitButton inputFields" type="submit">
                 <p> <i> *Password must be at least 10 characters long, containing lower, upper, special characters and numbers</i> </p>
@@ -93,28 +95,34 @@
         $("html, body").animate({ scrollTop: $(document).height()}, 50);
     })
 
+
     //Add on click event listener to the EYES on the forms
     $(".eye1").on("click", function() {
-        $(this).toggleClass("active");
-        
-        //Toggle password type attribute
-        if ($("#password1").attr("type") === "password"){
-            $("#password1").attr("type", "text");
-        } else{
-            $("#password1").attr("type", "password");
-        }
+        $(this).hide();
+        $(".openedEye1").show();
+        $("#password1").attr("type", "text");
     })
 
-    $(".eye2").on("click", function() {
-        $(this).toggleClass("active");
-        
-        //Toggle password type attribute
-        if ($("#password2").attr("type") === "password"){
-            $("#password2").attr("type", "text");
-        } else{
-            $("#password2").attr("type", "password");
-        }
+    $(".openedEye1").on("click", function() {
+        $(this).hide();
+        $(".eye1").show();
+        $("#password1").attr("type", "password");
     })
+
+
+    //REGISTRATION
+    $(".eye2").on("click", function() {
+        $(this).hide();
+        $(".openedEye2").show();
+        $("#password2").attr("type", "text");
+    })
+
+    $(".openedEye2").on("click", function() {
+        $(this).hide();
+        $(".eye2").show();
+        $("#password2").attr("type", "password");
+    })
+
 
 </script>
 
