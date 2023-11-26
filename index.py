@@ -198,6 +198,8 @@ def checkPasswordStrength(password):
     else:
         return True
     
+
+    
 #Check time
 def checkTime():
     currentTime = datetime.now() #Get the current time

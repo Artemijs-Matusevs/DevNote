@@ -3,6 +3,13 @@
     padding: 0;
 }
 
+/* ----- Store the gradient angle ----- */
+@property --a {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 60%;
+  }
+
 
 /* ----- TAG SELECTORS ----- */
 
@@ -244,7 +251,6 @@ input{
     width: 100%;
     height: 85vh;
     display: flex;
-    gap: 100px;
     box-sizing: border-box;
     opacity: 0;
 }
@@ -285,6 +291,11 @@ input{
     width: 200px;
 }
 
+/* ACTIVE NAV OPTION */
+.active{
+    color: white;
+}
+
 /* MOBILE NAV BAR FOR DASHBOARD */
 .mobileNav{
     position: fixed;
@@ -306,6 +317,44 @@ input{
     padding: 0;
     font-size: 25px;
     color: #f4ce14;
+}
+
+
+/* DASHBOARD MAIN CONTENT */
+.dashboardContent{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 100px;
+    overflow-y: auto;
+    height: 100%;
+    padding: 50px;
+}
+
+.panel{
+    width: 200px;
+    height: 250px;
+    background-image: linear-gradient(135deg, rgba(69,70,74,0.8)  ,rgba(239, 239, 239, 0.5) var(--a));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, --a 0.5s;
+}
+
+.panel a{
+    font-size: 100px;
+    color: rgba(244, 206, 20, 0.6)
+}
+
+.panel:hover{
+    --a:20%;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.plus{
+    width: 100%;
+    height: 100%;
 }
 
 
