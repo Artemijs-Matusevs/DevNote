@@ -123,8 +123,9 @@ def register():
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' in session:
+        books = getBooks(session['user_id'])
 
-        return render_template('dashboard.html')
+        return render_template('dashboard.html', books=books)
     else:
         return redirect(url_for('index'))
 
@@ -217,6 +218,21 @@ def createNewBook(userId, noteBookHeader):
         print("Error occured:", error)
         return None
 
+#Function to retrieve all books of a specific user by userId
+def getBooks(userId):
+    try:
+        cursor.execute(''' SELECT *
+                       FROM notebooks
+                       WHERE user_id = ? ''', (userId,))
+        
+        user_record = cursor.fetchall()
+        return user_record
+        
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
+
+#print(getBooks(1))
 
 #TESTING
 #print(getUserDetails("timm"))

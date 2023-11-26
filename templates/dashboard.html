@@ -48,6 +48,15 @@
     <div class="dashboardMainBody">
 
         <div class="dashboardContent">
+
+            {% if books %}
+                {% for book in books %}
+                    <div class="panel">
+                        <h3>{{ book[2] }}</h3>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <div class="panel newBookButton">
                 <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
             </div>
