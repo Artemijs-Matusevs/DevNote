@@ -17,9 +17,9 @@
     <!-- NEW NOTEBOOK CONFIRMATION -->
     <div class="newBook">
         <div>
-            <form action="/new-notebook" method="post">
+            <form class="forms" action="/new-notebook" method="post">
                 <p> Create new notebook </p>
-                <input class="inputFields" required name="notebookName" type="text" placeholder="Name of notebook*">
+                <input class="inputFields" required name="notebookName" maxLength="15" type="text" placeholder="Name of notebook*">
                 <div class="newBookButtons">
                     <input class="submitButton inputFields" type="submit" value="Create">
                     <input class="submitButton inputFields" type="reset" value="Cancel" onClick="closeConfirmation();">
@@ -51,9 +51,15 @@
 
             {% if books %}
                 {% for book in books %}
-                    <div class="panel">
+                    <!-- Each book will have its own form -->
+                    <form action="/handle_book_click" method="post">
+                        <input type="hidden" name="book_id" value="{{ book[0] }}">
+                        <input type="hidden" name="user_id" value="{{ book[1] }}">
+                        <!-- The book title is clickable and will submit the form -->
+                        <button type="submit" class="panel">
+                        </button>
                         <h3>{{ book[2] }}</h3>
-                    </div>
+                    </form>
                 {% endfor %}
             {% endif %}
 
