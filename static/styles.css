@@ -138,7 +138,8 @@ form{
     gap: 15px;
 }
 
-input{
+
+.inputFields{
     width: 300px;
     height: 25px;
     margin-bottom: 20px;
@@ -148,6 +149,34 @@ input{
     padding: 10px;
     background-color: transparent;
     color: #EFEFEF;
+}
+
+.passwordContainer{
+    width: 300px !important;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input{
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    color: white;
+}
+
+input:focus{
+    outline: none;
+}
+
+.eye:hover{
+    cursor: pointer;
+}
+
+.eye{
+    font-size: 25px;
 }
 
 .submitButton{
