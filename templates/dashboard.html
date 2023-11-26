@@ -22,7 +22,7 @@
                 <input class="inputFields" required name="notebookName" type="text" placeholder="Name of notebook*">
                 <div class="newBookButtons">
                     <input class="submitButton inputFields" type="submit" value="Create">
-                    <input class="submitButton inputFields" type="submit" value="Cancel" onClick="closeConfirmation();">
+                    <input class="submitButton inputFields" type="reset" value="Cancel" onClick="closeConfirmation();">
                 </div>
             </form>
         </div>
@@ -70,7 +70,7 @@
 
 <script>
      $(".newBook").hide();
-     
+
     $(document).ready(function() {
         setTimeout(function() {
             $(".border").addClass("borderActive");

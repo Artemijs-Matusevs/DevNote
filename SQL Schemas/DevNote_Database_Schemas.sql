@@ -8,6 +8,15 @@ CREATE TABLE users (
 )
 cursor.execute("CREATE TABLE users (id INTEGER PRIMARY KEY,username varchar(45) unique,email varchar(45) unique,password varchar(200),full_name varchar(45))") 
 
+
+-- CREATE THE NOTEBOOK TABLE --
+CREATE TABLE notebooks (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    notebook_header TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
+
 -- SELECT ALL RECORDS FROM USERS TABLE --
 SELECT *
 FROM users; 
