@@ -43,7 +43,10 @@ a{
 
 /* TOP SECTION OF INDEX PAGE */
 .indexTop{
-    background-color: transparent;
+    background: radial-gradient(grey, black);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +57,7 @@ a{
 }
 
 .indexTextContainer{
-    background-color: #45474b;
+    background-color: transparent;
     padding: 50px;
     color: #f5f7f8;
     font-size: 1.5rem;
@@ -63,7 +66,7 @@ a{
 }
 .indexTextContainer h1{
     font-size: 6rem;
-    color: #f4ce14;
+    color: #e8d4b6;
 }
 .indexTextContainer p{
     opacity: 0;
@@ -73,7 +76,7 @@ a{
     width: 100%;
     height: 100%;
     position: absolute;
-    z-index: -1;
+    z-index: 1;
 }
 
 .indexBackground path{
@@ -115,13 +118,13 @@ a{
 .indexBottom div{
     width: 400px;
     text-align: center;
-    color: #f4ce14;
+    color: #e8d4b6;
 }
 
 /* VERTICAL LINE ON INDEX PAGE FORM */
 .vl {
     height: 500px;
-    background-image: linear-gradient(to right, rgba(69,71,75,1), #f4ce14, rgba(69,71,75,1));
+    background-image: linear-gradient(to right, rgba(69,71,75,1), #e8d4b6, rgba(69,71,75,1));
     border-radius: 100%;
     width: 2px !important;
     flex-grow: 0;
@@ -145,7 +148,7 @@ form{
     margin-bottom: 20px;
     border: solid;
     border-style:groove;
-    border-color: #f4ce14;
+    border-color: #e8d4b6;
     padding: 10px;
     background-color: transparent;
     color: #EFEFEF;
@@ -224,9 +227,8 @@ input:focus{
 .dashboardHeader{
     width: 100%;
     height: 15vh;
-    box-shadow: 2px 2px 10px #EFEFEF;
+    gap: 100px;
     display: flex;
-    gap: 15vw;
     font-size: 35px;
     align-items: center;
     color: #EFEFEF;
@@ -236,7 +238,7 @@ input:focus{
 
 .dashboardHeader h1{
     font-style: italic;
-    color: #f4ce14;
+    color: #e8d4b6;
     font-size: 25px;
 }
 
@@ -261,20 +263,6 @@ input:focus{
 }
 
 
-.headerBackground{
-    position: absolute;
-    z-index: -1;
-    height: 15vh;
-    width: 100%;
-    animation-name: dashboardAnim;
-    animation-fill-mode: forwards;
-    animation-duration: 4s;
-    animation-delay: 2s;
-    animation-timing-function: linear forwards;
-    stroke-dasharray: 831px;
-    stroke-dashoffset: 831px;
-}
-
 /* Main body of dashboard*/
 .dashboardMainBody{
     width: 100%;
@@ -286,27 +274,30 @@ input:focus{
 
 /* dashboard nav */
 .dashboardNav{
-    width: 20vw;
-    padding: 50px;
     box-sizing: border-box;
     text-decoration: none;
-    box-shadow: 5px 0px 5px -5px #EFEFEF;
 }
 
 .dashboardNav ul{
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60vw;
 }
 
 .dashboardNav ul li{
     font-size: 30px;
     cursor: pointer;
-    color: #f4ce14;
-    margin: 50px 0;
+    color: #e8d4b6;
     display: flex;
     align-items: center;
-    gap: 15px;
+}
+
+.dashboardNav ul li a{
+    width: 100%;
 }
 
 .dashboardNav ul li:hover{
@@ -345,7 +336,7 @@ input:focus{
     list-style-type: none;
     padding: 0;
     font-size: 25px;
-    color: #f4ce14;
+    color: #e8d4b6;
 }
 
 
@@ -372,7 +363,7 @@ input:focus{
 
 .panel a{
     font-size: 100px;
-    color: rgba(244, 206, 20, 0.6)
+    color: rgba(232, 212, 182, 0.6)
 }
 
 .panel:hover{
@@ -392,7 +383,8 @@ input:focus{
 
 /* BORDER ANIMATION FOR LOGO */
 .border {
-    --c: #ecc046;
+    z-index: 2;
+    --c: #e8d4b6;
     --b: 10px;
     --g: 5px;
 
@@ -411,32 +403,6 @@ input:focus{
 }
 
 
-
-
-/* ----- ANIMATOINS ----- */
-@keyframes backgroundAnim{
-    0%{
-        stroke-dashoffset: 831px;
-    }
-    20%{
-        stroke-dashoffset: 0;
-    }
-    50%{
-        stroke-dashoffset: 0;
-    }
-    80%{
-        stroke-dashoffset: 0;
-    }
-    0%{
-        stroke-dashoffset: -831px;
-    } 
-}
-
-@keyframes dashboardAnim{
-    to {
-        stroke-dashoffset: 0;
-    }
-}
 
 
 
@@ -523,7 +489,6 @@ input:focus{
     }
     .indexTextContainer h1{
         font-size: 10vw;
-        color: #f4ce14;
     }
 }
 
