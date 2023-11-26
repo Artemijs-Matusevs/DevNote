@@ -139,7 +139,14 @@ def signOut():
     return redirect(url_for('index')) #Redirect back to root
 
 
+#Create new notebook
+@app.route('/new-notebook', methods=['POST'])
+def newNotebook():
+    notebookName = request.form['notebookName']
+    userId = session['user_id']
+    createNewBook(userId, notebookName)
 
+    return redirect(url_for('dashboard'))
 
 
 
@@ -197,6 +204,18 @@ def checkPasswordStrength(password):
     else:
         return True
     
+
+#Function to create a new notebook taking the userID as a param
+def createNewBook(userId, noteBookHeader):
+    try:
+        cursor.execute(''' INSERT INTO notebooks
+                       (user_id, notebook_header)
+                       VALUES (?, ?) ''', (userId, noteBookHeader, ))
+        conn.commit()
+    
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
 
 
 #TESTING
