@@ -163,7 +163,7 @@ def openBook():
 
     #print(pages)
     print(notebookName, bookId)
-    return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books)
+    return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books, bookId=bookId)
 
 
 

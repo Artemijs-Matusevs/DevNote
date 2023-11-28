@@ -15,18 +15,33 @@
 
 <body class="dashboardBody">
     <!-- NEW NOTEBOOK CONFIRMATION -->
-    <div class="newBook">
+    <div class="new newBook">
         <div>
             <form class="forms" action="/new-notebook" method="post">
                 <p> Create new notebook </p>
                 <input class="inputFields" required name="notebookName" maxLength="15" type="text" placeholder="Name of notebook*">
-                <div class="newBookButtons">
+                <div class="newButtons newBookButtons">
                     <input class="submitButton inputFields" type="submit" value="Create">
                     <input class="submitButton inputFields" type="reset" value="Cancel" onClick="closeConfirmation();">
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- NEW PAGE CONFIRMATION -->
+    <div class="new newPage">
+        <div>
+            <form class="forms" action="/new-page" method="post">
+                <p> Create new page in: {{notebookName}} </p>
+                <input class="inputFields" required name="pageName" maxLength="15" type="text" placeholder="Title of page*">
+                <div class="newButtons newPageButtons">
+                    <input class="submitButton inputFields" type="submit" value="Create">
+                    <input class="submitButton inputFields" type="reset" value="Cancel" onClick="closeConfirmation();">
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <div class="dashboardHeader"> 
         <div class="border dashboardBorder">
@@ -57,9 +72,10 @@
                         <input type="hidden" name="userId" value="{{ book[1] }}">
                         <input type="hidden" name="bookTitle" value="{{ book[2] }}">
 
-                        <button type="submit" class="panel">
+                        <button type="submit" class="panel {% if book[0]|string == bookId|string %}activePanel {% endif %}">
                             <h3>{{ book[2] }}</h3>
                         </button>
+    
                     </form>
                 {% endfor %}
             {% endif %}
@@ -86,10 +102,10 @@
                     {% endfor %}
                 {% endif %}
 
-                <div class="panel">
+                <div class="panel newPageButton">
                     <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
                 </div>
-                
+
             {% endif %}
 
         </div>
@@ -115,13 +131,17 @@
 </body>
 
 <script>
-    $(".newBook").hide();
+    $(".new").hide();
     function closeConfirmation(){
-            $(".newBook").hide();
+            $(".new").hide();
         }
         //Add event listener to new book button to show the new book confirmation window
         $(".newBookButton").on("click", function() {
             $(".newBook").show();
+        })
+
+        $(".newPageButton").on("click", function() {
+            $(".newPage").show();
         })
 </script>
 
