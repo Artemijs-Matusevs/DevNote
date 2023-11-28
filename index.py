@@ -124,8 +124,9 @@ def register():
 def dashboard():
     if 'user_id' in session:
         books = getBooks(session['user_id'])
+        return render_template('dashboard.html', pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'])
 
-        return render_template('dashboard.html', books=books)
+        
     else:
         return redirect(url_for('index'))
 
@@ -137,6 +138,13 @@ def signOut():
     #Remove userId from session
     session.pop('user_id', None)
     flash('You have been signed out')
+
+    #Reset all of the session variables
+    session['notebookName'] = None
+    session['bookId'] = None
+    session['pages'] = None
+    session['books'] = None
+
     return redirect(url_for('index')) #Redirect back to root
 
 
@@ -146,6 +154,19 @@ def newNotebook():
     notebookName = request.form['notebookName']
     userId = session['user_id']
     createNewBook(userId, notebookName)
+
+    return redirect(url_for('dashboard'))
+
+#Create new page
+@app.route('/new-page', methods=['POST'])
+def newPage():
+    pageName = request.form['page_name']
+    notebookId = request.form['book_id']
+    #print(pageName, notebookId)
+
+    newPage(notebookId, pageName)
+    pages = getPages(notebookId)
+    session['pages'] = pages
 
     return redirect(url_for('dashboard'))
 
@@ -161,11 +182,20 @@ def openBook():
     pages = getPages(bookId)
     books = getBooks(session['user_id'])
 
+    #Set the book, pages details within the current session
+    session['notebookName'] = notebookName
+    session['bookId'] = bookId
+    session['pages'] = pages
+    session['books'] = books
+
     #print(pages)
-    print(notebookName, bookId)
-    return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books, bookId=bookId)
+    #print(notebookName, bookId)
+    ##return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books, bookId=bookId)
+
+    return redirect(url_for('dashboard'))
 
 
+#Create new page
 
 
 

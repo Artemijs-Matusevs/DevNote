@@ -33,7 +33,8 @@
         <div>
             <form class="forms" action="/new-page" method="post">
                 <p> Create new page in: {{notebookName}} </p>
-                <input class="inputFields" required name="pageName" maxLength="15" type="text" placeholder="Title of page*">
+                <input class="inputFields" required name="page_name" maxLength="15" type="text" placeholder="Title of page*">
+                <input type="hidden" name="book_id" value="{{ bookId }}">
                 <div class="newButtons newPageButtons">
                     <input class="submitButton inputFields" type="submit" value="Create">
                     <input class="submitButton inputFields" type="reset" value="Cancel" onClick="closeConfirmation();">
@@ -89,15 +90,16 @@
             <img src="../static/img/page-document-my-page-empty-page-svgrepo-com.svg">
 
             {% if notebookName %}
-                <h3> {{ notebookName }} </h3>
+                <h3 class="notebookTitle active"> {{ notebookName }} </h3>
                 {% if pages %}
                     {% for page in pages %}
-                        <form action="/handle_book_click" method="post">
-                            <input type="hidden" name="page_id" value="{{ book[0] }}">
-                            <input type="hidden" name="user_id" value="{{ book[1] }}">
+                        <form action="/" method="post">
+                            <input type="hidden" name="page_id" value="{{ page[0] }}">
+                            <input type="hidden" name="user_id" value="{{ page[1] }}">
                             <button type="submit" class="panel">
                                 <h3>{{ page[2] }}</h3>
                             </button>
+
                         </form>
                     {% endfor %}
                 {% endif %}
