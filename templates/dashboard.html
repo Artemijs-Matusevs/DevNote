@@ -93,14 +93,22 @@
                 <h3 class="notebookTitle active"> {{ notebookName }} </h3>
                 {% if pages %}
                     {% for page in pages %}
-                        <form action="/" method="post">
-                            <input type="hidden" name="page_id" value="{{ page[0] }}">
-                            <input type="hidden" name="user_id" value="{{ page[1] }}">
-                            <button type="submit" class="panel">
-                                <h3>{{ page[2] }}</h3>
-                            </button>
+                        <div class="pagesContainer">
+                            <form action="/" method="post" class="left">
+                                <input type="hidden" name="page_id" value="{{ page[0] }}">
+                                <input type="hidden" name="user_id" value="{{ page[1] }}">
+                                <button type="submit" class="panel left">
+                                    <h3>{{ page[2] }}</h3>
+                                </button>
+                            </form>
 
-                        </form>
+                            <form action="/delete-page" method="post">
+                                <input type="hidden" name="page_id" value="{{ page[0] }}">
+                                <input type="hidden" name="book_id" value="{{ bookId }}">
+                                <input id="delete" class="delete" type="submit">
+                                <label for="delete" class="deleteIcon"> <ion-icon name="trash-outline"></ion-icon> </label>
+                            </form>
+                        </div>
                     {% endfor %}
                 {% endif %}
 

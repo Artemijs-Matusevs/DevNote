@@ -195,7 +195,24 @@ def openBook():
     return redirect(url_for('dashboard'))
 
 
-#Create new page
+#Delete page
+@app.route('/delete-page', methods=['POST'])
+def delete_page():
+    #Get the details of the requested page
+    pageId = request.form['page_id']
+    bookId = request.form['book_id']
+
+    #Delete the page
+    deletePage(pageId)
+
+    #Set the new pages
+    pages = getPages(bookId)
+    session['pages'] = pages
+
+    #redirect back to dashboard
+    return redirect(url_for('dashboard'))
+
+    #print(pageId)
 
 
 
@@ -308,6 +325,18 @@ def newPage(notebookId, pageTitle):
 
     except sqlite3.Error as error:
         print("Error occured: ", error)
+        return None
+
+
+#Function to delete a page by pageId
+def deletePage(pageId):
+    try:
+        cursor.execute(''' DELETE FROM pages
+                       WHERE id = ? ''', (pageId, ))
+        conn.commit()
+
+    except sqlite3.Error as error:
+        print("Error has occured: ", error)
         return None
 
 

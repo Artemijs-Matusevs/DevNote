@@ -432,7 +432,7 @@ input:focus{
 }
 
 .pages .panel:hover{
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
 }
 
 .notebookTitle{
@@ -440,6 +440,33 @@ input:focus{
     font-size: 30px;
     background-size: 15% 2px; 
 }
+
+.pagesContainer{
+    display: flex;
+    align-items: center;
+}
+
+.pagesContainer:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.left{
+    flex-grow: 1;
+}
+
+.delete{
+    display: none;
+}
+.deleteIcon{
+    font-size: 20px;
+    color:#e8d4b6;
+}
+.deleteIcon:hover{
+    font-size: 25px;
+    cursor: pointer;
+}
+
+
 
 /* TEXT EDITOR */
 .textEditor{
