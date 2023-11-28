@@ -48,6 +48,7 @@
     <div class="dashboardMainBody">
 
         <div class="dashboardContent">
+            <img src="../static/img/notebook-bookmark-svgrepo-com.svg">
 
             {% if books %}
                 {% for book in books %}
@@ -57,8 +58,8 @@
                         <input type="hidden" name="user_id" value="{{ book[1] }}">
                         <!-- The book title is clickable and will submit the form -->
                         <button type="submit" class="panel">
+                            <h3>{{ book[2] }}</h3>
                         </button>
-                        <h3>{{ book[2] }}</h3>
                     </form>
                 {% endfor %}
             {% endif %}
@@ -67,6 +68,16 @@
                 <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
             </div>
         </div>
+
+        <div class="pages">
+            <img src="../static/img/page-document-my-page-empty-page-svgrepo-com.svg">
+
+        </div>
+
+        <div class="textEditor">
+
+        </div>
+
     </div>
 
 

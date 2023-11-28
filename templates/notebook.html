@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DevNote</title>
+        <link rel="stylesheet" href="../static/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+        
+        <!-- ION ICONS -->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </head>
+
+<body class="dashboardBody">
+    <div class="dashboardHeader"> 
+
+    </div>
+
+    <div class="dashboardMainBody">
+
+    </div>
+
+</body>
+
+<script>
+    $(".newBook").hide();
+
+   $(document).ready(function() {
+       setTimeout(function() {
+           $(".border").addClass("borderActive");
+       }, 500);
+   });
+
+   setTimeout(function() {
+           $(".logo").animate({opacity: 1});
+   }, 750);
+
+   setTimeout(function() {
+       $(".dashboardNav").animate({opacity: 1});
+   }, 1000);
+
+   setTimeout(function() {
+           $(".dashboardMainBody").animate({opacity: 1});
+   }, 1250);
+
+</script>
+
+</html>
