@@ -68,16 +68,23 @@
 
             {% if books %}
                 {% for book in books %}
-                    <form action="/open-book" method="post">
+                <div class="pagesContainer pagesContainer2 {% if book[0]|string == bookId|string %}activePanel {% endif %}">
+                    <form action="/open-book" method="post" class="left">
                         <input type="hidden" name="bookId" value="{{ book[0] }}">
                         <input type="hidden" name="userId" value="{{ book[1] }}">
                         <input type="hidden" name="bookTitle" value="{{ book[2] }}">
 
-                        <button type="submit" class="panel {% if book[0]|string == bookId|string %}activePanel {% endif %}">
+                        <button type="submit" class="left panel {% if book[0]|string == bookId|string %}activePanel {% endif %}">
                             <h3>{{ book[2] }}</h3>
                         </button>
-    
                     </form>
+
+                    <form action="/delete-notebook" method="post">
+                        <input type="hidden" name="book_id" value="{{ book[0] }}">
+                        <input id="deleteBook" class="delete" type="submit">
+                        <label for="deleteBook" class="deleteIcon "> <ion-icon name="trash-outline"></ion-icon> </label>
+                    </form>
+                </div>
                 {% endfor %}
             {% endif %}
 
@@ -113,7 +120,7 @@
                 {% endif %}
 
                 <div class="panel newPageButton">
-                    <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
+                    <a class="plus plusPage"> <ion-icon name="add-outline"></ion-icon> </a>
                 </div>
 
             {% endif %}

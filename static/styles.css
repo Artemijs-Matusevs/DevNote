@@ -437,7 +437,7 @@ input:focus{
 
 .notebookTitle{
     color:#e8d4b6;
-    font-size: 30px;
+    font-size: 27.5px;
     background-size: 15% 2px; 
 }
 
@@ -447,6 +447,12 @@ input:focus{
 }
 
 .pagesContainer:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.pagesContainer2:hover{
+    background-color: grey;
+}
+.plusPage:hover{
     background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -465,6 +471,8 @@ input:focus{
     font-size: 25px;
     cursor: pointer;
 }
+
+
 
 
 

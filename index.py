@@ -215,6 +215,30 @@ def delete_page():
     #print(pageId)
 
 
+#Delete notebook
+@app.route('/delete-notebook', methods=['POST'])
+def delete_notebook():
+    #Get details of the requested book
+    bookId = request.form['book_id']
+
+    #First, delete all of the pages of that book
+    deleteAllPages(bookId)
+    #Delete the book
+    deleteNotebook(bookId)
+
+    #Get all the books again
+    books = getBooks(session['user_id'])
+    session['books'] = books
+    session['pages'] = None
+    session['notebookName'] = None
+    session['bookId'] = None
+
+
+    #Redirect back to dashboard
+    return redirect(url_for('dashboard'))
+
+
+
 
 #FUNCTIONS
 
@@ -340,6 +364,29 @@ def deletePage(pageId):
         return None
 
 
+#Function to delete all pages by notebook ID
+def deleteAllPages(notebookId):
+    try:
+        cursor.execute(''' DELETE FROM pages
+                       WHERE notebook_id = ?''', (notebookId, ))
+        conn.commit()
+
+    except sqlite3.Error as error:
+        print("Error: ", error)
+        return None
+
+
+#Function to delete notebook by id
+def deleteNotebook(notebookId):
+    try:
+        cursor.execute(''' DELETE FROM notebooks
+                       WHERE id = ?''', (notebookId, ))
+        conn.commit()
+
+    except sqlite3.Error as error:
+        print("Error :", error)
+        return None
+    
 
 
 #TESTING
