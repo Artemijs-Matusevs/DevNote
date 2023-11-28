@@ -124,7 +124,7 @@ def register():
 def dashboard():
     if 'user_id' in session:
         books = getBooks(session['user_id'])
-        return render_template('dashboard.html', pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'])
+        return render_template('dashboard.html', pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
 
         
     else:
@@ -140,12 +140,10 @@ def signOut():
     flash('You have been signed out')
 
     #Reset all of the session variables
-    session['notebookName'] = None
-    session['bookId'] = None
-    session['pages'] = None
-    session['books'] = None
+    resetSesstion()
 
     return redirect(url_for('index')) #Redirect back to root
+
 
 
 #Create new notebook
@@ -156,6 +154,8 @@ def newNotebook():
     createNewBook(userId, notebookName)
 
     return redirect(url_for('dashboard'))
+
+
 
 #Create new page
 @app.route('/new-page', methods=['POST'])
@@ -182,6 +182,9 @@ def openBook():
     pages = getPages(bookId)
     books = getBooks(session['user_id'])
 
+    #Reset session
+    resetSesstion()
+
     #Set the book, pages details within the current session
     session['notebookName'] = notebookName
     session['bookId'] = bookId
@@ -194,6 +197,24 @@ def openBook():
 
     return redirect(url_for('dashboard'))
 
+#Open page
+@app.route('/open-page', methods=['POST'])
+def openPage():
+    #Get details of the page
+    pageTitle = request.form['page_title']
+    pageId = request.form['page_id']
+
+    #Get the content of the clicked page
+
+    #Set the active page and content within the current session
+    session['pageName'] = pageTitle
+    session['pageId'] = pageId
+
+    return redirect(url_for('dashboard'))
+
+    #print(pageTitle, pageId)
+
+
 
 #Delete page
 @app.route('/delete-page', methods=['POST'])
@@ -201,13 +222,19 @@ def delete_page():
     #Get the details of the requested page
     pageId = request.form['page_id']
     bookId = request.form['book_id']
+    notebookName = request.form['book_name']
 
     #Delete the page
     deletePage(pageId)
 
+    #Reset session
+    resetSesstion()
+
     #Set the new pages
     pages = getPages(bookId)
     session['pages'] = pages
+    session['bookId'] = bookId
+    session['notebookName'] = notebookName
 
     #redirect back to dashboard
     return redirect(url_for('dashboard'))
@@ -228,10 +255,8 @@ def delete_notebook():
 
     #Get all the books again
     books = getBooks(session['user_id'])
+    resetSesstion()#Reset current values
     session['books'] = books
-    session['pages'] = None
-    session['notebookName'] = None
-    session['bookId'] = None
 
 
     #Redirect back to dashboard
@@ -388,6 +413,15 @@ def deleteNotebook(notebookId):
         return None
     
 
+#Function to reset all session variables
+def resetSesstion():
+    #Reset all of the session variables
+    session['notebookName'] = None
+    session['bookId'] = None
+    session['pages'] = None
+    session['books'] = None
+    session['pageName'] = None
+    session['pageId'] = None
 
 #TESTING
 #print(getUserDetails("timm"))

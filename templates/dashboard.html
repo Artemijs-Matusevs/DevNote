@@ -100,10 +100,11 @@
                 <h3 class="notebookTitle active"> {{ notebookName }} </h3>
                 {% if pages %}
                     {% for page in pages %}
-                        <div class="pagesContainer">
-                            <form action="/" method="post" class="left">
+                        <div class="pagesContainer {% if page[0]|string == pageId|string %}activePanel2 {% endif %}" >
+                            <form action="/open-page" method="post" class="left">
                                 <input type="hidden" name="page_id" value="{{ page[0] }}">
                                 <input type="hidden" name="user_id" value="{{ page[1] }}">
+                                <input type="hidden" name="page_title" value="{{ page[2] }}">
                                 <button type="submit" class="panel left">
                                     <h3>{{ page[2] }}</h3>
                                 </button>
@@ -112,6 +113,7 @@
                             <form action="/delete-page" method="post">
                                 <input type="hidden" name="page_id" value="{{ page[0] }}">
                                 <input type="hidden" name="book_id" value="{{ bookId }}">
+                                <input type="hidden" name="book_name" value="{{ notebookName }}">
                                 <input id="delete" class="delete" type="submit">
                                 <label for="delete" class="deleteIcon"> <ion-icon name="trash-outline"></ion-icon> </label>
                             </form>
@@ -128,7 +130,9 @@
         </div>
 
         <div class="textEditor">
-
+            {% if pageName %}
+                <h3> {{pageName}} </h3>
+            {% endif %}
         </div>
 
     </div>

@@ -455,7 +455,9 @@ input:focus{
 .plusPage:hover{
     background-color: rgba(0, 0, 0, 0.5);
 }
-
+.activePanel2{
+    background-color: rgba(0, 0, 0, 0.5);
+}
 .left{
     flex-grow: 1;
 }
