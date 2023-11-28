@@ -52,11 +52,11 @@
 
             {% if books %}
                 {% for book in books %}
-                    <!-- Each book will have its own form -->
-                    <form action="/handle_book_click" method="post">
-                        <input type="hidden" name="book_id" value="{{ book[0] }}">
-                        <input type="hidden" name="user_id" value="{{ book[1] }}">
-                        <!-- The book title is clickable and will submit the form -->
+                    <form action="/open-book" method="post">
+                        <input type="hidden" name="bookId" value="{{ book[0] }}">
+                        <input type="hidden" name="userId" value="{{ book[1] }}">
+                        <input type="hidden" name="bookTitle" value="{{ book[2] }}">
+
                         <button type="submit" class="panel">
                             <h3>{{ book[2] }}</h3>
                         </button>
@@ -71,6 +71,26 @@
 
         <div class="pages">
             <img src="../static/img/page-document-my-page-empty-page-svgrepo-com.svg">
+
+            {% if notebookName %}
+                <h3> {{ notebookName }} </h3>
+                {% if pages %}
+                    {% for page in pages %}
+                        <form action="/handle_book_click" method="post">
+                            <input type="hidden" name="page_id" value="{{ book[0] }}">
+                            <input type="hidden" name="user_id" value="{{ book[1] }}">
+                            <button type="submit" class="panel">
+                                <h3>{{ page[2] }}</h3>
+                            </button>
+                        </form>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="panel">
+                    <a class="plus"> <ion-icon name="add-outline"></ion-icon> </a>
+                </div>
+                
+            {% endif %}
 
         </div>
 
@@ -95,35 +115,46 @@
 </body>
 
 <script>
-     $(".newBook").hide();
-
-    $(document).ready(function() {
-        setTimeout(function() {
-            $(".border").addClass("borderActive");
-        }, 500);
-    });
-
-    setTimeout(function() {
-            $(".logo").animate({opacity: 1});
-    }, 750);
-
-    setTimeout(function() {
-        $(".dashboardNav").animate({opacity: 1});
-    }, 1000);
-
-    setTimeout(function() {
-            $(".dashboardMainBody").animate({opacity: 1});
-    }, 1250);
-
-
-
+    $(".newBook").hide();
     function closeConfirmation(){
-        $(".newBook").hide();
-    }
-    //Add event listener to new book button to show the new book confirmation window
-    $(".newBookButton").on("click", function() {
-        $(".newBook").show();
-    })
+            $(".newBook").hide();
+        }
+        //Add event listener to new book button to show the new book confirmation window
+        $(".newBookButton").on("click", function() {
+            $(".newBook").show();
+        })
 </script>
+
+
+{% if notebookName == null %}
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".border").addClass("borderActive");
+            }, 500);
+        });
+
+        setTimeout(function() {
+                $(".logo").animate({opacity: 1});
+        }, 750);
+
+        setTimeout(function() {
+            $(".dashboardNav").animate({opacity: 1});
+        }, 1000);
+
+        setTimeout(function() {
+                $(".dashboardMainBody").animate({opacity: 1});
+        }, 1250);
+    </script>
+
+{% else %}
+    <script>
+        $(".newBook").hide();
+        $(".border").addClass("borderActive");
+        $(".logo").css('opacity', '1');
+        $(".dashboardNav").css('opacity', '1');
+        $(".dashboardMainBody").css('opacity', '1');
+    </script>
+{% endif %}
 
 </html>

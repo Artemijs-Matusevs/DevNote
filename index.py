@@ -150,6 +150,24 @@ def newNotebook():
     return redirect(url_for('dashboard'))
 
 
+#Open book
+@app.route('/open-book', methods=['POST'])
+def openBook():
+    #Get details of the book
+    notebookName = request.form['bookTitle']
+    bookId = request.form['bookId']
+
+    #Get all of the pages of the clicked book
+    pages = getPages(bookId)
+    books = getBooks(session['user_id'])
+
+    #print(pages)
+    print(notebookName, bookId)
+    return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books)
+
+
+
+
 
 #FUNCTIONS
 
@@ -233,6 +251,37 @@ def getBooks(userId):
         return None
 
 #print(getBooks(1))
+
+
+#Function to get all pages of a specific notebook by notebook ID
+def getPages(notebookId):
+    try:
+        cursor.execute(''' SELECT *
+                       FROM pages
+                       WHERE notebook_id = ? ''', (notebookId, ))
+        
+        pages_records = cursor.fetchall()
+        return pages_records
+    
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
+
+
+#Function to create new page in a specific notebook
+def newPage(notebookId, pageTitle):
+    try:
+        cursor.execute(''' INSERT INTO pages
+                       (notebook_id, page_header)
+                       VALUES (?, ?) ''', (notebookId, pageTitle, ))
+        conn.commit()
+
+    except sqlite3.Error as error:
+        print("Error occured: ", error)
+        return None
+
+
+
 
 #TESTING
 #print(getUserDetails("timm"))

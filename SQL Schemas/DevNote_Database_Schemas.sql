@@ -17,6 +17,23 @@ CREATE TABLE notebooks (
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
 
+
+-- CREATE THE PAGES TABLE --
+CREATE TABLE pages (
+    id INTEGER PRIMARY KEY,
+    notebook_id INTEGER,
+    page_header TEXT,
+    page_content TEXT,
+    FOREIGN KEY (notebook_id) REFERENCES notebooks(id)
+)
+
+-- SELECT ALL PAGES OF SPECIFIC NOTEBOOK --
+SELECT *
+FROM pages
+WHERE notebook_id = 1;
+
+
+
 -- SELECT ALL RECORDS FROM USERS TABLE --
 SELECT *
 FROM users; 
