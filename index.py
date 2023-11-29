@@ -251,7 +251,8 @@ def delete_page():
 @app.route('/delete-notebook', methods=['POST'])
 def delete_notebook():
     #Get details of the requested book
-    bookId = request.form['book_id']
+    bookId = request.form['delete_book_id']
+    print(bookId)
 
     #First, delete all of the pages of that book
     deleteAllPages(bookId)
@@ -268,6 +269,38 @@ def delete_notebook():
     return redirect(url_for('dashboard'))
 
 
+#Rename notebook
+@app.route('/rename-notebook', methods=['POST'])
+def rename_notebook():
+    #Get details of new name and notebook ID
+    bookId = request.form['bookId']
+    newBookName = request.form['newBookName']
+
+    #Run the SQL Query
+    renameBook(bookId, newBookName)
+
+    #Refresh all notebooks
+    books = getBooks(session['user_id'])
+    session['books'] = books
+    session['notebookName'] = newBookName
+
+    #redirect to dashboard
+    return redirect(url_for('dashboard'))
+
+
+
+
+#Function to rename a notebook
+def renameBook(bookId, newBookName):
+    try:
+        cursor.execute('''UPDATE notebooks
+                       SET  notebook_header = ?
+                       WHERE id = ?''', (newBookName, bookId, ))
+        conn.commit()
+        
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
 
 
 

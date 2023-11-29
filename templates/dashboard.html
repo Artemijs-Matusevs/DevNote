@@ -81,9 +81,10 @@
                     </form>
 
                     <form action="/delete-notebook" method="post">
-                        <input type="hidden" name="book_id" value="{{ book[0] }}">
-                        <input id="deleteBook" class="delete" type="submit">
-                        <label for="deleteBook" class="deleteIcon "> <ion-icon name="trash-outline"></ion-icon> </label>
+                        <input type="hidden" name="delete_book_id" value="{{ book[0] }}">
+                        <button type="submit" class="deleteIcon">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
                     </form>
                 </div>
                 {% endfor %}
@@ -128,8 +129,9 @@
                                 <input type="hidden" name="page_id" value="{{ page[0] }}">
                                 <input type="hidden" name="book_id" value="{{ bookId }}">
                                 <input type="hidden" name="book_name" value="{{ notebookName }}">
-                                <input id="delete" class="delete" type="submit">
-                                <label for="delete" class="deleteIcon"> <ion-icon name="trash-outline"></ion-icon> </label>
+                                <button type="submit" class="deleteIcon">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
                             </form>
                         </div>
                     {% endfor %}
