@@ -5,8 +5,9 @@ import re
 from flask_ckeditor import CKEditor
 
 app = Flask(__name__)
-ckeditor = CKEditor(app) #Add instance of ckeditor to flask app
-app.config['CKEDITOR_PKG_TYPE'] = 'full'
+ckeditor = CKEditor()
+ckeditor.init_app(app)
+app.config['CKEDITOR_HEIGHT'] = '500'
 
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
 bcrypt = Bcrypt(app)
@@ -129,7 +130,7 @@ def register():
 def dashboard():
     if 'user_id' in session:
         books = getBooks(session['user_id'])
-        return render_template('dashboard.html', pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
+        return render_template('dashboard.html',pageContent=session['pageContent'], pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
 
         
     else:
@@ -210,10 +211,12 @@ def openPage():
     pageId = request.form['page_id']
 
     #Get the content of the clicked page
+    pageContent = getPageContent(pageId)
 
     #Set the active page and content within the current session
     session['pageName'] = pageTitle
     session['pageId'] = pageId
+    session['pageContent'] = pageContent
 
     return redirect(url_for('dashboard'))
 
@@ -288,6 +291,73 @@ def rename_notebook():
     return redirect(url_for('dashboard'))
 
 
+@app.route('/rename-page', methods=['POST'])
+def rename_page():
+    #Get details of new page name and page ID
+    bookId = request.form['bookId']
+    pageId = request.form['pageId']
+    newPageName = request.form['newPageName']
+
+    #Run SQL to set new name
+    renamePage(pageId, newPageName)
+
+    #Refrest the current pages
+    pages = getPages(bookId)
+    session['pages'] = pages
+    session['pageName'] = newPageName
+
+    #redirect to dashboard
+    return redirect(url_for('dashboard'))
+
+
+#Write to page
+@app.route('/write-page', methods=['POST'])
+def write_page():
+    #Get content details
+    data = request.form.get('ckeditor')
+    pageId = request.form['pageId']
+
+    #Write the data to db
+    writeToPage(pageId, data)
+
+    #Refresh page content
+    pageContent = getPageContent(pageId)
+
+    #Set new session content
+    session['pageContent'] = pageContent
+
+    #redirect to dashboard
+    return redirect(url_for('dashboard'))
+
+
+
+
+#FUNCTIONS
+#Function to write to specific page
+def writeToPage(pageId, content):
+    try:
+        cursor.execute('''UPDATE pages
+                       SET  page_content = ?
+                       WHERE id = ?''', (content, pageId))
+        conn.commit()
+
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
+    
+#Function to get content of specific page
+def getPageContent(pageId):
+    try:
+        cursor.execute(''' SELECT page_content
+                       FROM pages
+                       WHERE id = ?''', (pageId, ))
+        page_content = cursor.fetchone() #Store as tuple
+        processed_content = page_content[0] if page_content else ""
+        return processed_content
+    
+    except sqlite3.Error as error:
+        print("Error occured:", error)
+        return None
 
 
 #Function to rename a notebook
@@ -304,16 +374,18 @@ def renameBook(bookId, newBookName):
 
 
 
+#Rename a specific page
+def renamePage(pageId, newPageName):
+    try:
+        cursor.execute(''' UPDATE pages
+                       SET page_header = ?
+                       WHERE id = ? ''', (newPageName, pageId, ))
+        conn.commit()
 
+    except sqlite3.Error as error:
+        print("Error has occured:", error)
+        return None
 
-
-
-
-
-
-
-
-#FUNCTIONS
 
 #Get retrieve username and password from database of a specific user BY USERNAME
 def getUserDetails(username):
@@ -470,6 +542,7 @@ def resetSession():
     session['books'] = None
     session['pageName'] = None
     session['pageId'] = None
+    session['pageContent'] = "TESTING TESTING"
 
 
 

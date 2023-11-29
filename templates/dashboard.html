@@ -11,6 +11,8 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+    <!-- LOAD CKEDITOR -->
+    {{ ckeditor.load() }}
 </head>
 
 
@@ -45,6 +47,7 @@
     </div>
 
 
+    <!-- HEADER OF THE DASHBOARD MAIN PAGE, CONTAINING NAV AND LOGO -->
     <div class="dashboardHeader"> 
         <div class="border dashboardBorder">
             <div class="logo">
@@ -62,6 +65,7 @@
         </div>
     </div>
 
+    <!-- DASHBOARD MAIN BODY -->
     <div class="dashboardMainBody">
 
         <div class="dashboardContent">
@@ -102,7 +106,7 @@
 
                 <div class="notebookNameContainer">
                     <h3 class="notebookTitle active"> {{ notebookName }} </h3>
-                    <ion-icon class="edit" name="pencil-outline"></ion-icon>
+                    <ion-icon class="edit editBookName" name="pencil-outline"></ion-icon>
                 </div>
 
                 <form class="renameBookForm" action="/rename-notebook" method="post">
@@ -147,14 +151,35 @@
 
         <div class="textEditor">
             {% if pageName %}
-                <h3> {{pageName}} </h3>
-                <form method="post">
+                <div class="textEditorHeader">
+                    <div>
+                        <div class="pageNameContainer">
+                            <h1> {{pageName}} </h1>
+                            <ion-icon class="edit editPageName" name="pencil-outline"></ion-icon>
+                        </div>
 
-                    {{ ckeditor.load() }}
-                    {{ ckeditor.create(name='ckeditor') }}
-                    <input type="submit" value="Submit">
+                        <form class="renamePageForm" action="/rename-page" method="post">
+                            <input class="inputFields renameBookField" type="text" name="newPageName" value="{{pageName}}">
+                            <input type="hidden" name="pageId" value="{{pageId}}">
+                            <input type="hidden" name="bookId" value="{{bookId}}">
+                            <input type="submit" id="submitNewNamePage">
+                            <label for="submitNewNamePage"><ion-icon name="checkmark-outline"></ion-icon></label>
+                            <label class="closeEditPage"> <ion-icon name="close-outline"></ion-icon> </label>
+                        </form>
+                    </div>
 
+                    <div>
+                        <button><h1>Edit</h1></button>
+                        <label for="ckeditorSubmit"><h1>Save</h1></label>
+                    </div>
+                </div>
+
+                <form method="post" action="write-page" class="textEditorForm">
+                    {{ ckeditor.create(value=pageContent|safe) }}
+                    <input type="hidden" name="pageId" value="{{pageId}}">
+                    <input type="submit" style="display: none" id="ckeditorSubmit" value="Submit">
                 </form>
+                {{ ckeditor.config() }}
             {% endif %}
         </div>
 
@@ -170,13 +195,12 @@
         </ul>
     </div>
     
-
-
 </body>
 
 <script>
     $(".new").hide();
     $(".renameBookForm").hide();
+    $(".renamePageForm").hide();
 
     function closeConfirmation(){
             $(".new").hide();
@@ -192,7 +216,7 @@
 
 
     //Add event listeners to handle edit name of notebook
-    $(".edit").on("click", function() {
+    $(".editBookName").on("click", function() {
         $(".notebookNameContainer").hide();
         $(".renameBookForm").show();
     })
@@ -200,6 +224,16 @@
     $(".closeEdit").on("click", function () {
         $(".notebookNameContainer").show();
         $(".renameBookForm").hide();
+    })
+
+    //Add event listeners to handle page name edit
+    $(".editPageName").on("click", function() {
+        $(".pageNameContainer").hide();
+        $(".renamePageForm").show();
+    })
+    $(".closeEditPage").on("click", function() {
+        $(".pageNameContainer").show();
+        $(".renamePageForm").hide();
     })
 </script>
 
