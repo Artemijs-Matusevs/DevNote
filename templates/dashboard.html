@@ -10,6 +10,7 @@
     <!-- ION ICONS -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </head>
 
 
@@ -97,7 +98,20 @@
             <img src="../static/img/page-document-my-page-empty-page-svgrepo-com.svg">
 
             {% if notebookName %}
-                <h3 class="notebookTitle active"> {{ notebookName }} </h3>
+
+                <div class="notebookNameContainer">
+                    <h3 class="notebookTitle active"> {{ notebookName }} </h3>
+                    <ion-icon class="edit" name="pencil-outline"></ion-icon>
+                </div>
+
+                <form class="renameBookForm" action="/rename-notebook" method="post">
+                    <input class="inputFields renameBookField" type="text" name="newBookName" value="{{notebookName}}">
+                    <input type="hidden" name="bookId" value="{{bookId}}">
+                    <input type="submit" id="submitNewName">
+                    <label for="submitNewName"><ion-icon name="checkmark-outline"></ion-icon></label>
+                    <label class="closeEdit"> <ion-icon name="close-outline"></ion-icon> </label>
+                </form>
+
                 {% if pages %}
                     {% for page in pages %}
                         <div class="pagesContainer {% if page[0]|string == pageId|string %}activePanel2 {% endif %}" >
@@ -132,6 +146,13 @@
         <div class="textEditor">
             {% if pageName %}
                 <h3> {{pageName}} </h3>
+                <form method="post">
+
+                    {{ ckeditor.load() }}
+                    {{ ckeditor.create(name='ckeditor') }}
+                    <input type="submit" value="Submit">
+
+                </form>
             {% endif %}
         </div>
 
@@ -153,17 +174,31 @@
 
 <script>
     $(".new").hide();
+    $(".renameBookForm").hide();
+
     function closeConfirmation(){
             $(".new").hide();
         }
-        //Add event listener to new book button to show the new book confirmation window
-        $(".newBookButton").on("click", function() {
-            $(".newBook").show();
-        })
+    //Add event listener to new book button to show the new book confirmation window
+    $(".newBookButton").on("click", function() {
+        $(".newBook").show();
+    })
 
-        $(".newPageButton").on("click", function() {
-            $(".newPage").show();
-        })
+    $(".newPageButton").on("click", function() {
+        $(".newPage").show();
+    })
+
+
+    //Add event listeners to handle edit name of notebook
+    $(".edit").on("click", function() {
+        $(".notebookNameContainer").hide();
+        $(".renameBookForm").show();
+    })
+
+    $(".closeEdit").on("click", function () {
+        $(".notebookNameContainer").show();
+        $(".renameBookForm").hide();
+    })
 </script>
 
 

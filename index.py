@@ -2,9 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
-from datetime import datetime
+from flask_ckeditor import CKEditor
 
 app = Flask(__name__)
+ckeditor = CKEditor(app) #Add instance of ckeditor to flask app
+app.config['CKEDITOR_PKG_TYPE'] = 'full'
+
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
 bcrypt = Bcrypt(app)
 
@@ -19,6 +22,7 @@ green = "#149886"
 red = "#A45D5D"
 
 
+
 #Landing page, default endpoint
 @app.route('/')
 def index():
@@ -27,6 +31,7 @@ def index():
         return redirect(url_for('dashboard'))
     
     else:
+        resetSession()
         return render_template('index.html')
 
 
@@ -140,7 +145,7 @@ def signOut():
     flash('You have been signed out')
 
     #Reset all of the session variables
-    resetSesstion()
+    resetSession()
 
     return redirect(url_for('index')) #Redirect back to root
 
@@ -183,7 +188,7 @@ def openBook():
     books = getBooks(session['user_id'])
 
     #Reset session
-    resetSesstion()
+    resetSession()
 
     #Set the book, pages details within the current session
     session['notebookName'] = notebookName
@@ -228,7 +233,7 @@ def delete_page():
     deletePage(pageId)
 
     #Reset session
-    resetSesstion()
+    resetSession()
 
     #Set the new pages
     pages = getPages(bookId)
@@ -255,12 +260,22 @@ def delete_notebook():
 
     #Get all the books again
     books = getBooks(session['user_id'])
-    resetSesstion()#Reset current values
+    resetSession()#Reset current values
     session['books'] = books
 
 
     #Redirect back to dashboard
     return redirect(url_for('dashboard'))
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -414,7 +429,7 @@ def deleteNotebook(notebookId):
     
 
 #Function to reset all session variables
-def resetSesstion():
+def resetSession():
     #Reset all of the session variables
     session['notebookName'] = None
     session['bookId'] = None
@@ -422,6 +437,8 @@ def resetSesstion():
     session['books'] = None
     session['pageName'] = None
     session['pageId'] = None
+
+
 
 #TESTING
 #print(getUserDetails("timm"))
