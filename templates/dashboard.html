@@ -108,7 +108,7 @@
                 </div>
 
                 <form class="renameBookForm" action="/rename-notebook" method="post">
-                    <input class="inputFields renameBookField" type="text" name="newBookName" value="{{notebookName}}">
+                    <input class="inputFields renameBookField" type="text" maxLength="15" name="newBookName" value="{{notebookName}}">
                     <input type="hidden" name="bookId" value="{{bookId}}">
                     <input type="submit" id="submitNewName">
                     <label for="submitNewName"><ion-icon name="checkmark-outline"></ion-icon></label>
@@ -157,7 +157,7 @@
                         </div>
 
                         <form class="renamePageForm" action="/rename-page" method="post">
-                            <input class="inputFields renameBookField" type="text" name="newPageName" value="{{pageName}}">
+                            <input class="inputFields renameBookField" maxLength="15" type="text" name="newPageName" value="{{pageName}}">
                             <input type="hidden" name="pageId" value="{{pageId}}">
                             <input type="hidden" name="bookId" value="{{bookId}}">
                             <input type="submit" id="submitNewNamePage">
