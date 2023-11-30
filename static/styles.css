@@ -575,8 +575,9 @@ input:focus{
 }
 
 /* CKEDITOR */
-.cke_wysiwyg_frame{
-
+.ck-editor__editable {
+    min-height: 68.2vh;
+    max-height: 68.2vh;
 }
 
 

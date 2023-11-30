@@ -6,20 +6,32 @@
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
-import { Bold, Code, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { Bold, Code, Italic, Underline } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
-import { CloudServices } from '@ckeditor/ckeditor5-cloud-services';
 import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { FontBackgroundColor, FontColor, FontFamily, FontSize } from '@ckeditor/ckeditor5-font';
 import { Heading } from '@ckeditor/ckeditor5-heading';
-import { Indent } from '@ckeditor/ckeditor5-indent';
+import { Highlight } from '@ckeditor/ckeditor5-highlight';
+import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
+import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
+import {
+	Image,
+	ImageCaption,
+	ImageResize,
+	ImageStyle,
+	ImageToolbar,
+	ImageUpload
+} from '@ckeditor/ckeditor5-image';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
 import { Link } from '@ckeditor/ckeditor5-link';
-import { List } from '@ckeditor/ckeditor5-list';
+import { DocumentList } from '@ckeditor/ckeditor5-list';
+import { Markdown } from '@ckeditor/ckeditor5-markdown-gfm';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { PasteFromOffice } from '@ckeditor/ckeditor5-paste-from-office';
+import { Style } from '@ckeditor/ckeditor5-style';
 import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 
@@ -31,53 +43,80 @@ class Editor extends ClassicEditor {
 		Autoformat,
 		BlockQuote,
 		Bold,
-		CloudServices,
 		Code,
 		CodeBlock,
+		DocumentList,
 		Essentials,
 		FontBackgroundColor,
 		FontColor,
 		FontFamily,
 		FontSize,
+		GeneralHtmlSupport,
 		Heading,
+		Highlight,
+		HorizontalLine,
+		Image,
+		ImageCaption,
+		ImageResize,
+		ImageStyle,
+		ImageToolbar,
+		ImageUpload,
 		Indent,
+		IndentBlock,
 		Italic,
 		Link,
-		List,
+		Markdown,
 		MediaEmbed,
 		Paragraph,
 		PasteFromOffice,
+		Style,
 		Table,
 		TableToolbar,
-		TextTransformation
+		TextTransformation,
+		Underline
 	];
 
 	public static override defaultConfig: EditorConfig = {
 		toolbar: {
 			items: [
 				'heading',
+				'style',
 				'|',
 				'bold',
+				'underline',
 				'italic',
-				'link',
-				'bulletedList',
-				'numberedList',
+				'fontBackgroundColor',
+				'highlight',
+				'fontColor',
+				'fontSize',
+				'fontFamily',
 				'|',
+				'numberedList',
+				'bulletedList',
 				'outdent',
 				'indent',
 				'|',
+				'imageUpload',
+				'link',
 				'blockQuote',
 				'undo',
 				'redo',
-				'codeBlock',
+				'|',
 				'code',
-				'fontFamily',
-				'fontSize',
-				'fontColor',
-				'fontBackgroundColor'
+				'codeBlock',
+				'horizontalLine'
 			]
 		},
 		language: 'en',
+		image: {
+			toolbar: [
+				'imageTextAlternative',
+				'toggleImageCaption',
+				'imageStyle:inline',
+				'imageStyle:block',
+				'imageStyle:side'
+			]
+		},
 		table: {
 			contentToolbar: [
 				'tableColumn',

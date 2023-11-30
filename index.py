@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
-
 
 app = Flask(__name__)
 
