@@ -2,12 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
-from flask_ckeditor import CKEditor
+
 
 app = Flask(__name__)
-ckeditor = CKEditor()
-ckeditor.init_app(app)
-app.config['CKEDITOR_HEIGHT'] = '500'
 
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
 bcrypt = Bcrypt(app)
@@ -314,7 +311,7 @@ def rename_page():
 @app.route('/write-page', methods=['POST'])
 def write_page():
     #Get content details
-    data = request.form.get('ckeditor')
+    data = request.form['ckeditor']
     pageId = request.form['pageId']
 
     #Write the data to db
@@ -352,6 +349,8 @@ def getPageContent(pageId):
                        FROM pages
                        WHERE id = ?''', (pageId, ))
         page_content = cursor.fetchone() #Store as tuple
+
+
         processed_content = page_content[0] if page_content else ""
         return processed_content
     
@@ -542,7 +541,7 @@ def resetSession():
     session['books'] = None
     session['pageName'] = None
     session['pageId'] = None
-    session['pageContent'] = "TESTING TESTING"
+    session['pageContent'] = " "
 
 
 

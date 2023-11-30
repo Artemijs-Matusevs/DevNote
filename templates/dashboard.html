@@ -12,7 +12,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <!-- LOAD CKEDITOR -->
-    {{ ckeditor.load() }}
+    <script src="../static/ckeditor5/build/ckeditor.js"></script>
 </head>
 
 
@@ -175,11 +175,14 @@
                 </div>
 
                 <form method="post" action="write-page" class="textEditorForm">
-                    {{ ckeditor.create(value=pageContent|safe) }}
+                    {% if pageContent %}
+                        <textarea name="ckeditor" id="editor">{{pageContent|safe}}</textarea>
+                    {% else %}
+                        <textarea name="ckeditor" id="editor"></textarea>
+                    {% endif %}
                     <input type="hidden" name="pageId" value="{{pageId}}">
                     <input type="submit" style="display: none" id="ckeditorSubmit" value="Submit">
                 </form>
-                {{ ckeditor.config() }}
             {% endif %}
         </div>
 
@@ -196,6 +199,14 @@
     </div>
     
 </body>
+
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 
 <script>
     $(".new").hide();
