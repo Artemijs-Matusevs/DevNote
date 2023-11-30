@@ -312,6 +312,7 @@ def write_page():
     #Get content details
     data = request.form['ckeditor']
     pageId = request.form['pageId']
+    print(data)
 
     #Write the data to db
     writeToPage(pageId, data)
@@ -325,6 +326,19 @@ def write_page():
     #redirect to dashboard
     return redirect(url_for('dashboard'))
 
+
+#Export page as MD
+@app.route('/export-page', methods=['POST'])
+def export_page():
+    # Get data
+    data = request.form['pageContent']
+
+    # Create a response
+    response = make_response(data)
+    response.headers['Content-Type'] = 'text/plain'
+    response.headers['Content-Disposition'] = 'attachment; filename="downloaded_markdown.md"'
+
+    return response
 
 
 

@@ -176,7 +176,8 @@
                     </div>
 
                     <div>
-                        <label onClick="generatePDF()"><h1>Export</h1></label>
+                        <label for="ckeditorExport"><h1>Export(md)</h1></label>
+                        <label onClick="generatePDF()"><h1>Export(pdf)</h1></label>
                         <label for="ckeditorSubmit"><h1>Save</h1></label>
                     </div>
                 </div>
@@ -191,6 +192,13 @@
                     {% endif %}
                     <input type="hidden" name="pageId" value="{{pageId}}">
                     <input type="submit" style="display: none" id="ckeditorSubmit" value="Submit">
+                </form>
+
+                <!-- Form to export ckeditor data as md -->
+                <form method="post" action="export-page">
+                    <input type="hidden" name="pageContent" value="{{pageContent}}">
+                    <input type="hidden" name="pageName" value="{{pageName}}">
+                    <input type="submit" style="display: none" id="ckeditorExport" value="Submit">
                 </form>
             {% endif %}
         </div>
