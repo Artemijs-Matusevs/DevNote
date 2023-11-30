@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response, jsonify
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
@@ -348,13 +348,19 @@ def export_page():
 def import_page():
     #Get data
     file = request.files['file']
-    markdownContent = file.read().decode('utf-8')
 
-    #Set the new page content
-    session['pageContent'] = markdownContent
+    #Check file extension
+    if (file.filename.endswith('.md')):
+        markdownContent = file.read().decode('utf-8')
 
-    #redirect to dashboard
-    return redirect(url_for('dashboard'))
+        #Set the new page content
+        session['pageContent'] = markdownContent
+
+        #redirect to dashboard
+        return redirect(url_for('dashboard'))
+    else: #Wrong file extension
+        return jsonify({'error': 'Only .md extensions are supported'}), 400
+
 
 
 

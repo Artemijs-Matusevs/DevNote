@@ -25,7 +25,7 @@
 <body class="dashboardBody">
 
     <!-- NEW NOTEBOOK CONFIRMATION -->
-    <div class="new newBook">
+    <div class="new newBook" style="display: none">
         <div>
             <form class="forms" action="/new-notebook" method="post">
                 <p> Create new notebook </p>
@@ -39,7 +39,7 @@
     </div>
 
     <!-- NEW PAGE CONFIRMATION -->
-    <div class="new newPage">
+    <div class="new newPage" style="display: none">
         <div>
             <form class="forms" action="/new-page" method="post">
                 <p> Create new page in: {{notebookName}} </p>
@@ -268,6 +268,7 @@
     $(".new").hide();
     $(".renameBookForm").hide();
     $(".renamePageForm").hide();
+    $(".newBook").hide();
 
     function closeConfirmation(){
             $(".new").hide();
@@ -305,30 +306,12 @@
 </script>
 
 
-{% if notebookName == null %}
     <script>
 
-        setTimeout(function() {
-                $(".logo").animate({opacity: 1});
-        }, 750);
-
-        setTimeout(function() {
-            $(".dashboardNav").animate({opacity: 1});
-        }, 1000);
-
-        setTimeout(function() {
-                $(".dashboardMainBody").animate({opacity: 1});
-        }, 1250);
-    </script>
-
-{% else %}
-    <script>
-        $(".newBook").hide();
         $(".border").addClass("borderActive");
         $(".logo").css('opacity', '1');
         $(".dashboardNav").css('opacity', '1');
         $(".dashboardMainBody").css('opacity', '1');
     </script>
-{% endif %}
 
 </html>
