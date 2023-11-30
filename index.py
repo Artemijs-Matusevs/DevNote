@@ -6,6 +6,7 @@ from markdown import markdown
 
 app = Flask(__name__)
 
+#SET UP SESSION AND BCRYPT INSTANCE
 app.secret_key = 'DTFn_Ohz_;IK3UqCqu{G>WaWm@lRz%'
 bcrypt = Bcrypt(app)
 
@@ -19,9 +20,6 @@ cursor = conn.cursor()
 green = "#149886"
 red = "#A45D5D"
 
-globalPageContent = ""
-
-
 #Landing page, default endpoint
 @app.route('/')
 def index():
@@ -32,6 +30,7 @@ def index():
     else:
         resetSession()
         return render_template('index.html')
+
 
 
 #Handle sign-in and redirect accordingly
@@ -123,26 +122,27 @@ def register():
 
 
 
+
 #The user dashboard
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' in session:
+        #Get all books for current user
         books = getBooks(session['user_id'])
 
+        #Get current page content
         rawMarkdown = getPageContent(session['pageId'])
         if(rawMarkdown):
-            processed_markdown = rawMarkdown.replace(' ', '&nbsp;').replace('\n', '<br>')
-            globalPageContent = markdown(processed_markdown)
+            globalPageContent = markdown(rawMarkdown)
 
-        else:
+        else:#If no page is present
             globalPageContent = None
 
-        #print(globalPageContent)
-
+        #Render dashboard tempalte
         return render_template('dashboard.html',pageContent=globalPageContent, pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
 
         
-    else:
+    else:#If no user is signed-in
         return redirect(url_for('index'))
 
 
@@ -219,13 +219,10 @@ def openPage():
     pageTitle = request.form['page_title']
     pageId = request.form['page_id']
 
-    #Get the content of the clicked page
-    pageContent = getPageContent(pageId)
 
     #Set the active page and content within the current session
     session['pageName'] = pageTitle
     session['pageId'] = pageId
-    globalPageContent = pageContent
 
     return redirect(url_for('dashboard'))
 
@@ -359,11 +356,15 @@ def import_page():
 
     #Check file extension
     if (file.filename.endswith('.md')):
-        markdownContent = file.read().decode('utf-8')
+        rawMarkdown = file.read().decode('utf-8')
         #print(markdownContent)
 
+
+        #newPageContent = markdown(rawMarkdown)
+        newPageContent = markdown(rawMarkdown)
+
         #Set the new page content
-        writeToPage(pageId, markdownContent)
+        writeToPage(pageId, newPageContent)
 
         #redirect to dashboard
         return redirect(url_for('dashboard'))
@@ -577,6 +578,7 @@ def deleteNotebook(notebookId):
         return None
     
 
+
 #Function to reset all session variables
 def resetSession():
     #Reset all of the session variables
@@ -586,7 +588,6 @@ def resetSession():
     session['books'] = None
     session['pageName'] = None
     session['pageId'] = None
-    session['pageContent'] = " "
 
 
 

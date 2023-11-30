@@ -14,10 +14,6 @@
     <!-- LOAD CKEDITOR -->
     <script src="../static/ckeditor5/build/ckeditor.js"></script>
 
-    <!-- HTML TO PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     
 </head>
 
@@ -63,19 +59,14 @@
         </div>
 
         <div class="dashboardNav">
-            <ul>
-                <li class="active"><a> Notebooks </a></li>
-                <li><a> Settings </a></li>
-                <li><a> Support </a> </li>
-                <li><a href="/sign-out"> Sign-Out </a></li>
-            </ul>
+            <a href="/sign-out"> Sign-Out </a>
         </div>
     </div>
 
     <!-- DASHBOARD MAIN BODY -->
     <div class="dashboardMainBody">
 
-        <div class="dashboardContent">
+        <div class="notebookList">
             <img src="../static/img/notebook-bookmark-svgrepo-com.svg">
 
             {% if books %}
@@ -178,7 +169,6 @@
                     <div>
                         <label for="file-upload"><h1>Import(md)</h1></label>
                         <label for="ckeditorExport"><h1>Export(md)</h1></label>
-                        <label onClick="generatePDF()"><h1>Export(pdf)</h1></label>
                         <label for="ckeditorSubmit"><h1>Save</h1></label>
                     </div>
                 </div>
@@ -186,7 +176,7 @@
                 <form method="post" action="write-page" class="textEditorForm">
                     {% if pageContent %}
                         <div id="editorContent">
-                            <textarea name="ckeditor" id="editor">{{ pageContent }}</textarea>
+                            <textarea name="ckeditor" id="editor">{{ pageContent | safe }}</textarea>
                         </div>
                     {% else %}
                         <textarea name="ckeditor" id="editor"></textarea>
@@ -225,7 +215,24 @@
     
 </body>
 
+
+
+<!-- JAVASCRIPT -->
 <script>
+    //Hide alert boxes and edit fieds
+    $(".new").hide();
+    $(".renameBookForm").hide();
+    $(".renamePageForm").hide();
+    $(".newBook").hide();
+
+    //Show border logo main body and nav
+    $(".border").addClass("borderActive");
+    $(".logo").css('opacity', '1');
+    $(".dashboardNav").css('opacity', '1');
+    $(".dashboardMainBody").css('opacity', '1');
+
+
+    //Load CKEDITOR5
     ClassicEditor
         .create( document.querySelector( '#editor' ))
         .catch( error => {
@@ -233,47 +240,21 @@
         } );
 
 
-    function generatePDF() {
-        // Get the content of the div
-        const element = document.getElementById('editorContent');
-        const pdfName = document.getElementById('pageName')
+    //Submit md file upload on an on chance event listener
+    const fileUpload = document.getElementById('file-upload');
 
-        // Use html2pdf to generate the PDF
-        html2pdf()
-        .from(element)
-        .set({
-            margin: 0.2,
-            filename: pdfName.innerHTML,
-            image: {
-            type: 'jpeg',
-            quality: 0.98
-            },
-            html2canvas: {
-            scale: 2 // Higher scale for better resolution
-            },
-            jsPDF: {
-            unit: 'in',
-            format: 'letter',
-            orientation: 'portrait'
-            }
-        })
-        .save();
-  }
+    //If the form exists
+    if(fileUpload){
+        document.getElementById('file-upload').onchange = function() {
+            document.getElementById('file-upload-form').submit();//Submit form
+        }
+    }
 
-  document.getElementById('file-upload').onchange = function() {
-    document.getElementById('file-upload-form').submit();
-  }
-</script>
-
-<script>
-    $(".new").hide();
-    $(".renameBookForm").hide();
-    $(".renamePageForm").hide();
-    $(".newBook").hide();
-
+    //Close confiration messages
     function closeConfirmation(){
             $(".new").hide();
         }
+
     //Add event listener to new book button to show the new book confirmation window
     $(".newBookButton").on("click", function() {
         $(".newBook").show();
@@ -305,14 +286,4 @@
         $(".renamePageForm").hide();
     })
 </script>
-
-
-    <script>
-
-        $(".border").addClass("borderActive");
-        $(".logo").css('opacity', '1');
-        $(".dashboardNav").css('opacity', '1');
-        $(".dashboardMainBody").css('opacity', '1');
-    </script>
-
 </html>

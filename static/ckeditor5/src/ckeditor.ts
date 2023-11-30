@@ -6,32 +6,26 @@
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
-import { Bold, Code, Italic, Underline } from '@ckeditor/ckeditor5-basic-styles';
+import { Bold, Code, Italic } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { FontBackgroundColor, FontColor, FontFamily, FontSize } from '@ckeditor/ckeditor5-font';
 import { Heading } from '@ckeditor/ckeditor5-heading';
-import { Highlight } from '@ckeditor/ckeditor5-highlight';
-import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
-import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 import {
 	Image,
 	ImageCaption,
-	ImageResize,
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload
 } from '@ckeditor/ckeditor5-image';
-import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
+import { Indent } from '@ckeditor/ckeditor5-indent';
 import { Link } from '@ckeditor/ckeditor5-link';
-import { DocumentList } from '@ckeditor/ckeditor5-list';
-import { Markdown } from '@ckeditor/ckeditor5-markdown-gfm';
+import { List } from '@ckeditor/ckeditor5-list';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { PasteFromOffice } from '@ckeditor/ckeditor5-paste-from-office';
-import { Style } from '@ckeditor/ckeditor5-style';
 import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 
@@ -45,66 +39,54 @@ class Editor extends ClassicEditor {
 		Bold,
 		Code,
 		CodeBlock,
-		DocumentList,
 		Essentials,
 		FontBackgroundColor,
 		FontColor,
 		FontFamily,
 		FontSize,
-		GeneralHtmlSupport,
 		Heading,
-		Highlight,
-		HorizontalLine,
 		Image,
 		ImageCaption,
-		ImageResize,
 		ImageStyle,
 		ImageToolbar,
 		ImageUpload,
 		Indent,
-		IndentBlock,
 		Italic,
 		Link,
-		Markdown,
+		List,
 		MediaEmbed,
 		Paragraph,
 		PasteFromOffice,
-		Style,
 		Table,
 		TableToolbar,
-		TextTransformation,
-		Underline
+		TextTransformation
 	];
 
 	public static override defaultConfig: EditorConfig = {
 		toolbar: {
 			items: [
 				'heading',
-				'style',
 				'|',
 				'bold',
-				'underline',
 				'italic',
-				'fontBackgroundColor',
-				'highlight',
-				'fontColor',
+				'link',
 				'fontSize',
 				'fontFamily',
+				'fontBackgroundColor',
+				'fontColor',
 				'|',
-				'numberedList',
 				'bulletedList',
+				'numberedList',
 				'outdent',
 				'indent',
 				'|',
 				'imageUpload',
-				'link',
 				'blockQuote',
 				'undo',
 				'redo',
 				'|',
 				'code',
-				'codeBlock',
-				'horizontalLine'
+				'codeBlock'
 			]
 		},
 		language: 'en',
