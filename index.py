@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bcrypt import Bcrypt
 import sqlite3
 import re
+from markdown import markdown
 
 app = Flask(__name__)
 
@@ -18,6 +19,7 @@ cursor = conn.cursor()
 green = "#149886"
 red = "#A45D5D"
 
+globalPageContent = ""
 
 
 #Landing page, default endpoint
@@ -126,7 +128,18 @@ def register():
 def dashboard():
     if 'user_id' in session:
         books = getBooks(session['user_id'])
-        return render_template('dashboard.html',pageContent=session['pageContent'], pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
+
+        rawMarkdown = getPageContent(session['pageId'])
+        if(rawMarkdown):
+            processed_markdown = rawMarkdown.replace(' ', '&nbsp;').replace('\n', '<br>')
+            globalPageContent = markdown(processed_markdown)
+
+        else:
+            globalPageContent = None
+
+        #print(globalPageContent)
+
+        return render_template('dashboard.html',pageContent=globalPageContent, pageId=session['pageId'], pages=session['pages'], notebookName=session['notebookName'], books=books, bookId=session['bookId'] , pageName=session['pageName'] )
 
         
     else:
@@ -212,7 +225,7 @@ def openPage():
     #Set the active page and content within the current session
     session['pageName'] = pageTitle
     session['pageId'] = pageId
-    session['pageContent'] = pageContent
+    globalPageContent = pageContent
 
     return redirect(url_for('dashboard'))
 
@@ -312,16 +325,10 @@ def write_page():
     #Get content details
     data = request.form['ckeditor']
     pageId = request.form['pageId']
-    print(data)
+    #print(data)
 
     #Write the data to db
     writeToPage(pageId, data)
-
-    #Refresh page content
-    pageContent = getPageContent(pageId)
-
-    #Set new session content
-    session['pageContent'] = pageContent
 
     #redirect to dashboard
     return redirect(url_for('dashboard'))
@@ -348,13 +355,15 @@ def export_page():
 def import_page():
     #Get data
     file = request.files['file']
+    pageId = request.form['pageId']
 
     #Check file extension
     if (file.filename.endswith('.md')):
         markdownContent = file.read().decode('utf-8')
+        #print(markdownContent)
 
         #Set the new page content
-        session['pageContent'] = markdownContent
+        writeToPage(pageId, markdownContent)
 
         #redirect to dashboard
         return redirect(url_for('dashboard'))
@@ -387,6 +396,7 @@ def getPageContent(pageId):
 
 
         processed_content = page_content[0] if page_content else ""
+        #print(processed_content)
         return processed_content
     
     except sqlite3.Error as error:
@@ -506,7 +516,7 @@ def getBooks(userId):
 #Function to get all pages of a specific notebook by notebook ID
 def getPages(notebookId):
     try:
-        cursor.execute(''' SELECT *
+        cursor.execute(''' SELECT id, notebook_id, page_header
                        FROM pages
                        WHERE notebook_id = ? ''', (notebookId, ))
         

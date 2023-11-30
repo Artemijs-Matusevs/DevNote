@@ -186,7 +186,7 @@
                 <form method="post" action="write-page" class="textEditorForm">
                     {% if pageContent %}
                         <div id="editorContent">
-                            <textarea name="ckeditor" id="editor">{{pageContent|safe}}</textarea>
+                            <textarea name="ckeditor" id="editor">{{ pageContent }}</textarea>
                         </div>
                     {% else %}
                         <textarea name="ckeditor" id="editor"></textarea>
@@ -198,6 +198,7 @@
                 <!-- Form to import md data -->
                 <form id="file-upload-form" method="post" action="import-page" enctype="multipart/form-data">
                     <input id="file-upload" name="file" type="file" style="display: none;"/>
+                    <input type="hidden" name="pageId" value="{{pageId}}">
                     <input type="submit" style="display: none" value="Submit">
                 </form>
 
