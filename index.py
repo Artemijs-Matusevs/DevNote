@@ -332,13 +332,29 @@ def write_page():
 def export_page():
     # Get data
     data = request.form['pageContent']
+    pageName = request.form['pageName']
+    print("test")
 
     # Create a response
     response = make_response(data)
     response.headers['Content-Type'] = 'text/plain'
-    response.headers['Content-Disposition'] = 'attachment; filename="downloaded_markdown.md"'
+    response.headers['Content-Disposition'] = f'attachment; filename={pageName}.md'
 
     return response
+
+
+#Import MD file
+@app.route('/import-page', methods=['POST'])
+def import_page():
+    #Get data
+    file = request.files['file']
+    markdownContent = file.read().decode('utf-8')
+
+    #Set the new page content
+    session['pageContent'] = markdownContent
+
+    #redirect to dashboard
+    return redirect(url_for('dashboard'))
 
 
 

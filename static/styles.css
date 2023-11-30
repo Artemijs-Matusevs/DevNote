@@ -553,6 +553,10 @@ input:focus{
 .textEditorHeader div{
     display: flex;
     gap: 25px;
+    font-size: 10px;
+}
+#pageName{
+    font-size: 35px;
 }
 
 #submitNewNamePage{

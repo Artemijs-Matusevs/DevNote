@@ -176,6 +176,7 @@
                     </div>
 
                     <div>
+                        <label for="file-upload"><h1>Import(md)</h1></label>
                         <label for="ckeditorExport"><h1>Export(md)</h1></label>
                         <label onClick="generatePDF()"><h1>Export(pdf)</h1></label>
                         <label for="ckeditorSubmit"><h1>Save</h1></label>
@@ -192,6 +193,12 @@
                     {% endif %}
                     <input type="hidden" name="pageId" value="{{pageId}}">
                     <input type="submit" style="display: none" id="ckeditorSubmit" value="Submit">
+                </form>
+
+                <!-- Form to import md data -->
+                <form id="file-upload-form" method="post" action="import-page" enctype="multipart/form-data">
+                    <input id="file-upload" name="file" type="file" style="display: none;"/>
+                    <input type="submit" style="display: none" value="Submit">
                 </form>
 
                 <!-- Form to export ckeditor data as md -->
@@ -250,6 +257,10 @@
             }
         })
         .save();
+  }
+
+  document.getElementById('file-upload').onchange = function() {
+    document.getElementById('file-upload-form').submit();
   }
 </script>
 
