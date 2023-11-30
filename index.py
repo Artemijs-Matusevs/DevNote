@@ -164,212 +164,247 @@ def signOut():
 #Create new notebook
 @app.route('/new-notebook', methods=['POST'])
 def newNotebook():
-    notebookName = request.form['notebookName']
-    userId = session['user_id']
-    createNewBook(userId, notebookName)
+    if 'user_id' in session:
+        notebookName = request.form['notebookName']
+        userId = session['user_id']
+        createNewBook(userId, notebookName)
 
-    return redirect(url_for('dashboard'))
-
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
+    
 
 
 #Create new page
 @app.route('/new-page', methods=['POST'])
 def newPage():
-    pageName = request.form['page_name']
-    notebookId = request.form['book_id']
-    #print(pageName, notebookId)
+    if 'user_id' in session:
+        pageName = request.form['page_name']
+        notebookId = request.form['book_id']
+        #print(pageName, notebookId)
 
-    newPage(notebookId, pageName)
-    pages = getPages(notebookId)
-    session['pages'] = pages
+        newPage(notebookId, pageName)
+        pages = getPages(notebookId)
+        session['pages'] = pages
 
-    return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
+
+
 
 
 #Open book
 @app.route('/open-book', methods=['POST'])
 def openBook():
-    #Get details of the book
-    notebookName = request.form['bookTitle']
-    bookId = request.form['bookId']
+    if 'user_id' in session:
+        #Get details of the book
+        notebookName = request.form['bookTitle']
+        bookId = request.form['bookId']
 
-    #Get all of the pages of the clicked book
-    pages = getPages(bookId)
-    books = getBooks(session['user_id'])
+        #Get all of the pages of the clicked book
+        pages = getPages(bookId)
+        books = getBooks(session['user_id'])
 
-    #Reset session
-    resetSession()
+        #Reset session
+        resetSession()
 
-    #Set the book, pages details within the current session
-    session['notebookName'] = notebookName
-    session['bookId'] = bookId
-    session['pages'] = pages
-    session['books'] = books
+        #Set the book, pages details within the current session
+        session['notebookName'] = notebookName
+        session['bookId'] = bookId
+        session['pages'] = pages
+        session['books'] = books
 
-    #print(pages)
-    #print(notebookName, bookId)
-    ##return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books, bookId=bookId)
+        #print(pages)
+        #print(notebookName, bookId)
+        ##return render_template('dashboard.html', pages=pages, notebookName=notebookName, books=books, bookId=bookId)
 
-    return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'))
+    
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 #Open page
 @app.route('/open-page', methods=['POST'])
 def openPage():
-    #Get details of the page
-    pageTitle = request.form['page_title']
-    pageId = request.form['page_id']
+    if 'user_id' in session:
+        #Get details of the page
+        pageTitle = request.form['page_title']
+        pageId = request.form['page_id']
 
 
-    #Set the active page and content within the current session
-    session['pageName'] = pageTitle
-    session['pageId'] = pageId
+        #Set the active page and content within the current session
+        session['pageName'] = pageTitle
+        session['pageId'] = pageId
 
-    return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'))
 
-    #print(pageTitle, pageId)
+        #print(pageTitle, pageId)
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 
 #Delete page
 @app.route('/delete-page', methods=['POST'])
 def delete_page():
-    #Get the details of the requested page
-    pageId = request.form['page_id']
-    bookId = request.form['book_id']
-    notebookName = request.form['book_name']
+    if 'user_id' in session:
+        #Get the details of the requested page
+        pageId = request.form['page_id']
+        bookId = request.form['book_id']
+        notebookName = request.form['book_name']
 
-    #Delete the page
-    deletePage(pageId)
+        #Delete the page
+        deletePage(pageId)
 
-    #Reset session
-    resetSession()
+        #Reset session
+        resetSession()
 
-    #Set the new pages
-    pages = getPages(bookId)
-    session['pages'] = pages
-    session['bookId'] = bookId
-    session['notebookName'] = notebookName
+        #Set the new pages
+        pages = getPages(bookId)
+        session['pages'] = pages
+        session['bookId'] = bookId
+        session['notebookName'] = notebookName
 
-    #redirect back to dashboard
-    return redirect(url_for('dashboard'))
+        #redirect back to dashboard
+        return redirect(url_for('dashboard'))
 
-    #print(pageId)
-
+        #print(pageId)
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 #Delete notebook
 @app.route('/delete-notebook', methods=['POST'])
 def delete_notebook():
-    #Get details of the requested book
-    bookId = request.form['delete_book_id']
-    print(bookId)
+    if 'user_id' in session:
+        #Get details of the requested book
+        bookId = request.form['delete_book_id']
+        print(bookId)
 
-    #First, delete all of the pages of that book
-    deleteAllPages(bookId)
-    #Delete the book
-    deleteNotebook(bookId)
+        #First, delete all of the pages of that book
+        deleteAllPages(bookId)
+        #Delete the book
+        deleteNotebook(bookId)
 
-    #Get all the books again
-    books = getBooks(session['user_id'])
-    resetSession()#Reset current values
-    session['books'] = books
+        #Get all the books again
+        books = getBooks(session['user_id'])
+        resetSession()#Reset current values
+        session['books'] = books
 
 
-    #Redirect back to dashboard
-    return redirect(url_for('dashboard'))
+        #Redirect back to dashboard
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 #Rename notebook
 @app.route('/rename-notebook', methods=['POST'])
 def rename_notebook():
-    #Get details of new name and notebook ID
-    bookId = request.form['bookId']
-    newBookName = request.form['newBookName']
+    if 'user_id' in session:
+        #Get details of new name and notebook ID
+        bookId = request.form['bookId']
+        newBookName = request.form['newBookName']
 
-    #Run the SQL Query
-    renameBook(bookId, newBookName)
+        #Run the SQL Query
+        renameBook(bookId, newBookName)
 
-    #Refresh all notebooks
-    books = getBooks(session['user_id'])
-    session['books'] = books
-    session['notebookName'] = newBookName
+        #Refresh all notebooks
+        books = getBooks(session['user_id'])
+        session['books'] = books
+        session['notebookName'] = newBookName
 
-    #redirect to dashboard
-    return redirect(url_for('dashboard'))
+        #redirect to dashboard
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 @app.route('/rename-page', methods=['POST'])
 def rename_page():
-    #Get details of new page name and page ID
-    bookId = request.form['bookId']
-    pageId = request.form['pageId']
-    newPageName = request.form['newPageName']
+    if 'user_id' in session:
+        #Get details of new page name and page ID
+        bookId = request.form['bookId']
+        pageId = request.form['pageId']
+        newPageName = request.form['newPageName']
 
-    #Run SQL to set new name
-    renamePage(pageId, newPageName)
+        #Run SQL to set new name
+        renamePage(pageId, newPageName)
 
-    #Refrest the current pages
-    pages = getPages(bookId)
-    session['pages'] = pages
-    session['pageName'] = newPageName
+        #Refrest the current pages
+        pages = getPages(bookId)
+        session['pages'] = pages
+        session['pageName'] = newPageName
 
-    #redirect to dashboard
-    return redirect(url_for('dashboard'))
+        #redirect to dashboard
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 #Write to page
 @app.route('/write-page', methods=['POST'])
 def write_page():
-    #Get content details
-    data = request.form['ckeditor']
-    pageId = request.form['pageId']
-    #print(data)
+    if 'user_id' in session:
+        #Get content details
+        data = request.form['ckeditor']
+        pageId = request.form['pageId']
+        #print(data)
 
-    #Write the data to db
-    writeToPage(pageId, data)
+        #Write the data to db
+        writeToPage(pageId, data)
 
-    #redirect to dashboard
-    return redirect(url_for('dashboard'))
+        #redirect to dashboard
+        return redirect(url_for('dashboard'))
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 #Export page as MD
 @app.route('/export-page', methods=['POST'])
 def export_page():
-    # Get data
-    data = request.form['pageContent']
-    pageName = request.form['pageName']
-    print("test")
+    if 'user_id' in session:
+        # Get data
+        data = request.form['pageContent']
+        pageName = request.form['pageName']
+        print("test")
 
-    # Create a response
-    response = make_response(data)
-    response.headers['Content-Type'] = 'text/plain'
-    response.headers['Content-Disposition'] = f'attachment; filename={pageName}.md'
+        # Create a response
+        response = make_response(data)
+        response.headers['Content-Type'] = 'text/plain'
+        response.headers['Content-Disposition'] = f'attachment; filename={pageName}.md'
 
-    return response
+        return response
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 #Import MD file
 @app.route('/import-page', methods=['POST'])
 def import_page():
-    #Get data
-    file = request.files['file']
-    pageId = request.form['pageId']
+    if 'user_id' in session:
+        #Get data
+        file = request.files['file']
+        pageId = request.form['pageId']
 
-    #Check file extension
-    if (file.filename.endswith('.md')):
-        rawMarkdown = file.read().decode('utf-8')
-        #print(markdownContent)
+        #Check file extension
+        if (file.filename.endswith('.md')):
+            rawMarkdown = file.read().decode('utf-8')
+            #print(markdownContent)
 
 
-        #newPageContent = markdown(rawMarkdown)
-        newPageContent = markdown(rawMarkdown)
+            #newPageContent = markdown(rawMarkdown)
+            newPageContent = markdown(rawMarkdown)
 
-        #Set the new page content
-        writeToPage(pageId, newPageContent)
+            #Set the new page content
+            writeToPage(pageId, newPageContent)
 
-        #redirect to dashboard
-        return redirect(url_for('dashboard'))
-    else: #Wrong file extension
-        return jsonify({'error': 'Only .md extensions are supported'}), 400
+            #redirect to dashboard
+            return redirect(url_for('dashboard'))
+        else: #Wrong file extension
+            return jsonify({'error': 'Only .md extensions are supported'}), 400
+    else:
+        return jsonify({'error': 'Unauthorized access'}), 400
 
 
 
